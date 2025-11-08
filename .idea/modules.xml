@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/Expense-Tracker.iml" filepath="$PROJECT_DIR$/.idea/Expense-Tracker.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Expense-Tracker.iml" filepath="$PROJECT_DIR$/Expense-Tracker.iml" />
     </modules>
   </component>
 </project>
