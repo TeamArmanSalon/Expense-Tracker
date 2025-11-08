@@ -62,7 +62,7 @@ public class Transaction {
     // Display all records
     public void showRecords() {
         System.out.println("\n--- All Transactions ---");
-        System.out.printf("%-12s | %-8s | %-10s | %-10s | %-8s%n", "Name", "Amount", "Category", "User Name", "Type");
+        System.out.printf("%-12s | %-8s | %-10s | %-10s | %-8s%n", "Description", "Amount", "Category", "User Name", "Type");
         System.out.println("------------------------------------------------------------------");
 
         for (Record r : records) {
