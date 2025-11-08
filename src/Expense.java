@@ -12,8 +12,11 @@ public class Expense {
         this.category = new ArrayList<>();
         initializeCat();
     }
+
+    //Overload Cons
     Expense(){
-        //Overload Cons
+        this.category = new ArrayList<>();
+        initializeCat();
     }
 
     void initializeCat(){

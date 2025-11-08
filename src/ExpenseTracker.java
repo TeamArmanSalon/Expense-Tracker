@@ -4,6 +4,7 @@ public class ExpenseTracker {
     private static final Scanner scanner = new Scanner(System.in);
     private static final Transaction records = new Transaction();
     private static User user;
+    private static Expense expense;
 
     public static void main(String[] args) {
         System.out.println("Welcome to Expense Tracker!");
@@ -56,9 +57,16 @@ public class ExpenseTracker {
     }
 
     private static void addExpense() {
+        expense = new Expense();
         System.out.print("Enter amount: ");
         double amount = scanner.nextDouble();
         scanner.nextLine();
+
+        System.out.print("Here are some categories: ");
+        for(String cat : expense.getCategory()){
+            System.out.print(cat + " | ");
+        }
+        System.out.println(); //add new line
 
         System.out.print("Category: ");
         String category = scanner.nextLine();
