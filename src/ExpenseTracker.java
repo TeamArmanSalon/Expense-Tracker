@@ -1,24 +1,20 @@
 import java.util.*;
 
 public class ExpenseTracker {
+
+    public static void main(String[] args) {
+        launch();
+    }
+
     private static final Scanner scanner = new Scanner(System.in);
     private static final Transaction records = new Transaction();
     private static User user;
     private static Expense expense;
 
-    public static void main(String[] args) {
+
+    private static void launch(){
         System.out.println("Welcome to Expense Tracker!");
-        System.out.print("Enter Name: ");
-        String name = scanner.nextLine();
-        System.out.print("Enter Password: ");
-        String password = scanner.nextLine();
-
-        user = new User(name, password);
-        user.setAccount(new Account(0.0, name));
-        records.setUser(user);
-        records.setAccount(user.getAccount());
-
-        System.out.println("\nAccount created successfully!\n");
+        registerUser();
 
         int choice;
         do {
@@ -31,6 +27,20 @@ public class ExpenseTracker {
             scanner.nextLine(); // consume newline
             handleChoice(choice);
         } while (choice != 0);
+    }
+
+    private static void registerUser(){
+        System.out.print("Enter Name: ");
+        String name = scanner.nextLine();
+        System.out.print("Enter Password: ");
+        String password = scanner.nextLine();
+
+        user = new User(name, password);
+        user.setAccount(new Account(0.0, name));
+        records.setUser(user);
+        records.setAccount(user.getAccount());
+
+        System.out.println("\nAccount created successfully!\n");
     }
 
     private static void showMenu() {
