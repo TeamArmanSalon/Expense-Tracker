@@ -5,6 +5,7 @@ public class Expense {
     private String description;
     private List<String> category;
     private double amount;
+    private double expense;
 
     Expense(String description, double amount){
         this.description = description;
@@ -27,6 +28,16 @@ public class Expense {
         category.add("Food");
         category.add("Insurance");
     }
+
+    //Expense
+    public double getExpense() {
+        return expense;
+    }
+
+    public void setExpense(double expense) {
+        this.expense = expense;
+    }
+
 
     //Cat
     public List<String> getCategory() {

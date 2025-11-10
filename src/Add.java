@@ -1,29 +1,55 @@
-public class Add {
-    private double expense;
-    private double income;
+import java.util.InputMismatchException;
+import java.util.Scanner;
 
-    public Add(double expense, double income) {
-        this.expense = expense;
-        this.income = income;
-    }
-    public Add(double income){
-        this.income = income;
-    }
+public class Add extends Expense {
+    private Scanner scanner;
+    private Transaction records;
 
-    public double getExpense() {
-        return expense;
+    Add(Scanner scanner, Transaction records){
+        this.scanner = scanner;
+        this.records = records;
     }
 
-    public void setExpense(double expense) {
-        this.expense = expense;
-    }
+    public void addExpense(){
+        Expense expense = new Expense();
+        while (true) {
+            try {
+                System.out.print("Enter amount: ");
+                if (!scanner.hasNextDouble()) {
+                    System.out.println("Invalid input. Please enter a number.");
+                    scanner.nextLine();
+                    continue; // restart loop
+                }
+                double amount = scanner.nextDouble();
+                scanner.nextLine();
 
-    public double getIncome() {
-        return income;
-    }
+                System.out.print("Here are some categories: ");
+                for (String cat : expense.getCategory()) {
+                    System.out.print(cat + " | ");
+                }
+                System.out.println();
 
-    public void setIncome(double income) {
-        this.income = income;
+                System.out.print("Enter Category: ");
+                String category = scanner.nextLine();
+
+                System.out.print("Enter Description: ");
+                String desc = scanner.nextLine();
+
+                expense = new Expense(desc, amount);
+                expense.setCategory(category);
+                records.addExpense(desc, amount, category);
+
+                System.out.println("Expense added successfully!\n");
+                break; // exit loop when done
+
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input type. Please try again.");
+                scanner.nextLine(); // clear buffer
+            } catch (Exception e) {
+                System.out.println("An unexpected error occurred: " + e.getMessage());
+                scanner.nextLine();
+            }
+        }
     }
 
 }

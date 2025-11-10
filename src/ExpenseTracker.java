@@ -10,6 +10,7 @@ public class ExpenseTracker {
     private static final Transaction records = new Transaction();
     private static User user;
     private static Expense expense;
+    private static Add add = new Add(scanner, records);
 
 
     private static void launch(){
@@ -57,7 +58,7 @@ public class ExpenseTracker {
                 System.out.println("[ Must not be empty, Please try again! ]");
             }
             else if(!password.matches(regex)){
-                System.out.println("[ Password must be minimum 12 chars, at least one lowercase," +
+                System.out.println("[ Password must be 12 chars, at least one lowercase," +
                         " one uppercase, one digit, and one symbol. Please Try again! ]");
             }
             else{
@@ -87,7 +88,7 @@ public class ExpenseTracker {
 
     private static void handleChoice(int choice) {
         switch (choice) {
-            case 1 -> addExpense();
+            case 1 -> add.addExpense();
             case 2 -> addIncome();
             case 3 -> setBudget();
             case 4 -> viewBudgets();
@@ -97,37 +98,12 @@ public class ExpenseTracker {
         }
     }
 
-    private static void addExpense() {
-        expense = new Expense();
-        System.out.print("Enter amount: ");
-        double amount = scanner.nextDouble();
-        scanner.nextLine();
-
-        System.out.print("Here are some categories: ");
-        for(String cat : expense.getCategory()){
-            System.out.print(cat + " | ");
-        }
-        System.out.println(); //add new line
-
-        System.out.print("Category: ");
-        String category = scanner.nextLine();
-
-        System.out.print("Description: ");
-        String desc = scanner.nextLine();
-
-        Expense expense = new Expense(desc, amount);
-        expense.setCategory(category);
-        records.addExpense(desc, amount, category);
-
-        System.out.println("Expense added successfully!\n");
-    }
-
     private static void addIncome() {
         System.out.print("Enter income amount: ");
         double income = scanner.nextDouble();
         scanner.nextLine();
 
-        Add add = new Add(income);
+        //Add add = new Add(income);
         records.addIncome("Income Entry", income, "General");
 
         System.out.println("Income added successfully!\n");
