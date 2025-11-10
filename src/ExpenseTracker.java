@@ -75,7 +75,7 @@ public class ExpenseTracker {
     }
 
     private static void showMenu() {
-        System.out.println("\n----- MENU -----");
+        System.out.println("- Expense Tracker -");
         System.out.println("1. Add Expense");
         System.out.println("2. Add Income");
         System.out.println("3. Set Budget");
@@ -119,7 +119,7 @@ public class ExpenseTracker {
         expense.setCategory(category);
         records.addExpense(desc, amount, category);
 
-        System.out.println("Expense added successfully!");
+        System.out.println("Expense added successfully!\n");
     }
 
     private static void addIncome() {
@@ -130,7 +130,7 @@ public class ExpenseTracker {
         Add add = new Add(income);
         records.addIncome("Income Entry", income, "General");
 
-        System.out.println("Income added successfully!");
+        System.out.println("Income added successfully!\n");
     }
 
     // Placeholder for future features
