@@ -32,7 +32,7 @@ public class ExpenseTracker {
     private static void registerUser(){
 
         String name;
-        String password = "";
+        String password;
 
         System.out.print("Enter Name: ");
         name = scanner.nextLine();
