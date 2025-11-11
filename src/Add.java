@@ -4,11 +4,35 @@ import java.util.Scanner;
 public class Add extends Expense {
     private Scanner scanner;
     private Transaction records;
+    private Account account;
 
     Add(Scanner scanner, Transaction records){
         this.scanner = scanner;
         this.records = records;
     }
+
+    //Temp
+    /*
+    public void addIncome(){
+        System.out.print("Enter What type of Income: ");
+        String typeOfIncome = scanner.nextLine();
+
+        account = new Account(typeOfIncome);
+
+        System.out.println("Enter Amount: ");
+
+        while(!scanner.hasNextDouble()){
+            System.out.println("Invalid Input please try again!");
+        }
+
+
+
+
+
+
+    }
+    
+     */
 
     public void addExpense(){
         Expense expense = new Expense();
@@ -48,6 +72,8 @@ public class Add extends Expense {
             } catch (Exception e) {
                 System.out.println("An unexpected error occurred: " + e.getMessage());
                 scanner.nextLine();
+            } finally {
+                scanner.close();
             }
         }
     }

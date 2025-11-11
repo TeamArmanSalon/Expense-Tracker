@@ -2,15 +2,38 @@ public class Account {
     private double balance;
     private String username;
     private double income;
+    private String types;
 
     public Account(double balance) {
         this.balance = balance;
+    }
+
+    public Account(String types){
+        this.types = types;
     }
 
     public Account(double balance, String username) {
         this.balance = balance;
         this.username = username;
     }
+
+    public Account(double balance, String username, String types) {
+        this.balance = balance;
+        this.username = username;
+        this.types = types;
+    }
+
+    //Types
+
+    public void setTypes(String types){
+        this.types = types;
+    }
+
+    public String getTypes(){
+        return this.types;
+    }
+
+    //Income
 
     public double getIncome() {
         return income;
@@ -20,6 +43,8 @@ public class Account {
         this.income = income;
     }
 
+    //Balance
+
     public double getBalance() {
         return balance;
     }
@@ -27,6 +52,8 @@ public class Account {
     public void setBalance(double balance) {
         this.balance = balance;
     }
+
+    //User Name
 
     public String getUsername() {
         return username;

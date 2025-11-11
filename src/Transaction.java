@@ -4,23 +4,7 @@ import java.util.List;
 public class Transaction {
     private Account account;
     private User user;
-
-    // Simple record structure for income/expense entries
-    private static class Record {
-        String name;
-        double amount;
-        String category;
-        String userName;
-        boolean isIncome;
-
-        Record(String name, double amount, String category, String userName, boolean isIncome) {
-            this.name = name;
-            this.amount = amount;
-            this.category = category;
-            this.userName = userName;
-            this.isIncome = isIncome;
-        }
-    }
+    private Record record;
 
     // List to store all transactions
     private List<Record> records = new ArrayList<>();

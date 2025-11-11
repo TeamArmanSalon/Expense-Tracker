@@ -38,6 +38,7 @@ public class ExpenseTracker {
         System.out.print("Enter Name: ");
         name = scanner.nextLine();
 
+
         while(true){
             if(!name.matches("[a-z-A-Z ,.]+")){
                 System.out.println("[ We only accept Name that contains letters, space, comma, and dot! ]");
@@ -66,7 +67,6 @@ public class ExpenseTracker {
             }
         }
 
-
         user = new User(name, password);
         user.setAccount(new Account(0.0, name));
         records.setUser(user);
@@ -74,6 +74,8 @@ public class ExpenseTracker {
 
         System.out.println("\nAccount created successfully!\n");
     }
+
+
 
     private static void showMenu() {
         System.out.println("- Expense Tracker -");
@@ -89,7 +91,7 @@ public class ExpenseTracker {
     private static void handleChoice(int choice) {
         switch (choice) {
             case 1 -> add.addExpense();
-            case 2 -> addIncome();
+            case 2 -> System.out.println("Temp");//add.addIncome(); temp
             case 3 -> setBudget();
             case 4 -> viewBudgets();
             case 5 -> viewReport();
