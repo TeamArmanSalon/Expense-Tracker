@@ -4,13 +4,11 @@ public class Account {
     private double income;
     private String types;
 
-    public Account(double balance) {
-        this.balance = balance;
-    }
-
-    public Account(String types){
+    public Account( String types, double income) {
+        this.balance = income;
         this.types = types;
     }
+
 
     public Account(double balance, String username) {
         this.balance = balance;

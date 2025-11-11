@@ -9,8 +9,8 @@ public class ExpenseTracker {
     private static final Scanner scanner = new Scanner(System.in);
     private static final Transaction records = new Transaction();
     private static User user;
-    private static Expense expense;
     private static Add add = new Add(scanner, records);
+    private static Account account;
 
 
     private static void launch(){
@@ -18,16 +18,23 @@ public class ExpenseTracker {
         registerUser();
 
         int choice;
-        do {
+        while(true){
             showMenu();
-            while (!scanner.hasNextInt()) {
-                System.out.print("Please enter a valid number: ");
-                scanner.next();
+            String temp = scanner.nextLine();
+
+            if(temp.isEmpty()){ //check if empty
+                System.out.println("\n[ Must not be empty! ]\n");
+                continue;
             }
-            choice = scanner.nextInt();
-            scanner.nextLine(); // consume newline
+
+            try{
+                choice = Integer.parseInt(temp); //convert to int
+            }catch (Exception e){
+                System.out.println("\n[ Invalid input. Please Try again! ]\n");
+                continue;
+            }
             handleChoice(choice);
-        } while (choice != 0);
+        }
     }
 
     private static void registerUser(){
@@ -68,9 +75,7 @@ public class ExpenseTracker {
         }
 
         user = new User(name, password);
-        user.setAccount(new Account(0.0, name));
         records.setUser(user);
-        records.setAccount(user.getAccount());
 
         System.out.println("\nAccount created successfully!\n");
     }
@@ -91,15 +96,47 @@ public class ExpenseTracker {
     private static void handleChoice(int choice) {
         switch (choice) {
             case 1 -> add.addExpense();
-            case 2 -> System.out.println("Temp");//add.addIncome(); temp
+            case 2 -> addIncome();
             case 3 -> setBudget();
             case 4 -> viewBudgets();
             case 5 -> viewReport();
-            case 0 -> System.out.println("Goodbye!");
+            case 0 -> {
+                System.out.println("Exiting...");
+                System.exit(0);
+            }
             default -> System.out.println("Invalid choice. Please try again.");
         }
     }
 
+    public static void addIncome(){
+        System.out.print("Enter What type of Income: ");
+        String typeOfIncome = scanner.nextLine();
+
+        double income;
+        while(true){
+            System.out.print("Enter Amount: ");
+            String temp = scanner.nextLine();
+
+            if(temp.isEmpty()){
+                System.out.println("[ Must not be empty ]");
+                continue;
+            }
+
+            try{
+                income = Double.parseDouble(temp);
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println("[ Invalid input, Please Try again! ]");
+            }
+        }
+
+        account = new Account(typeOfIncome, income);
+        account.setBalance(income);
+        System.out.println("Income added successfully!");
+
+    }
+
+    /*
     private static void addIncome() {
         System.out.print("Enter income amount: ");
         double income = scanner.nextDouble();
@@ -110,6 +147,7 @@ public class ExpenseTracker {
 
         System.out.println("Income added successfully!\n");
     }
+     */
 
     // Placeholder for future features
     private static void setBudget() {
@@ -123,7 +161,7 @@ public class ExpenseTracker {
     private static void viewReport() {
         System.out.println("\n--- Account Report ---");
         System.out.println("Name: " + user.getName());
-        System.out.println("Balance: ₱" + user.getAccount().getBalance());
+        System.out.println("Balance: ₱" + account.getBalance()); //Temp
         System.out.println("Total Transactions: " + records.size());
         records.showRecords();
     }

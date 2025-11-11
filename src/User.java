@@ -1,28 +1,27 @@
-import java.util.Scanner;
-
 public class User {
     private String name;
     private String password;
-    private Account account;
-    private Scanner scanner;
-    private Transaction records;
 
     User(String name, String password) {
         this.name = name;
         this.password = password;
     }
 
-
+    //Name
     public String getName() {
         return name;
     }
 
-    public void setAccount(Account account) {
-        this.account = account;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public Account getAccount() {
-        return account;
+    //Password
+    public String getPassword() {
+        return password;
     }
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }
