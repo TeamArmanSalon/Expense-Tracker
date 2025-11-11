@@ -46,12 +46,12 @@ public class Transaction {
     // Display all records
     public void showRecords() {
         System.out.println("\n--- All Transactions ---");
-        System.out.printf("%-12s | %-8s | %-10s | %-10s | %-8s%n", "Description", "Amount", "Category", "User Name", "Type");
+        System.out.printf("%s | %s | %s | %s | %s%n", "Description", "Amount", "Category", "User Name", "Type");
         System.out.println("------------------------------------------------------------------");
 
         for (Record r : records) {
             String type = r.isIncome ? "Income" : "Expense";
-            System.out.printf("%-12s | %-8.2f | %-10s | %-10s | %-8s%n",
+            System.out.printf("%s | %.2f | %s | %s | %s%n",
                     r.name, r.amount, r.category, r.userName, type);
         }
     }
