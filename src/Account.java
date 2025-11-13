@@ -1,50 +1,15 @@
 public class Account {
     private double balance;
     private String username;
-    private double income;
-    private String types;
+    private String type;
 
-    public Account( String types, double income) {
-        this.balance = income;
-        this.types = types;
+    public Account() {
     }
 
-    public Account(){
-        //NOthing
+    public Account(String type, double initialBalance) {
+        this.type = type;
+        this.balance = initialBalance;
     }
-
-    public Account(double balance, String username) {
-        this.balance = balance;
-        this.username = username;
-    }
-
-    public Account(double balance, String username, String types) {
-        this.balance = balance;
-        this.username = username;
-        this.types = types;
-    }
-
-    //Types
-
-    public void setTypes(String types){
-        this.types = types;
-    }
-
-    public String getTypes(){
-        return this.types;
-    }
-
-    //Income
-
-    public double getIncome() {
-        return income;
-    }
-
-    public void setIncome(double income) {
-        this.income = income;
-    }
-
-    //Balance
 
     public double getBalance() {
         return balance;
@@ -54,7 +19,13 @@ public class Account {
         this.balance = balance;
     }
 
-    //User Name
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 
     public String getUsername() {
         return username;
@@ -64,4 +35,3 @@ public class Account {
         this.username = username;
     }
 }
-
