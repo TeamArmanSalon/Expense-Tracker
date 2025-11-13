@@ -39,7 +39,7 @@ public class Add extends Expense {
                 expense.setCategory(category);
                 records.addExpense(desc, amount, category);
 
-                System.out.println("Expense added successfully!\n");
+                System.out.println("\nExpense added successfully!\n");
                 break; // exit loop when done
 
             } catch (InputMismatchException e) {
@@ -48,8 +48,6 @@ public class Add extends Expense {
             } catch (Exception e) {
                 System.out.println("An unexpected error occurred: " + e.getMessage());
                 scanner.nextLine();
-            } finally {
-                scanner.close();
             }
         }
     }

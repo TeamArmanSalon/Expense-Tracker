@@ -9,6 +9,9 @@ public class Account {
         this.types = types;
     }
 
+    public Account(){
+        //NOthing
+    }
 
     public Account(double balance, String username) {
         this.balance = balance;

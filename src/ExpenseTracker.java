@@ -10,7 +10,7 @@ public class ExpenseTracker {
     private static final Transaction records = new Transaction();
     private static User user;
     private static Add add = new Add(scanner, records);
-    private static Account account;
+    private static Account account = new Account();
 
 
     private static void launch(){
@@ -84,27 +84,47 @@ public class ExpenseTracker {
 
     private static void showMenu() {
         System.out.println("- Expense Tracker -");
-        System.out.println("1. Add Expense");
-        System.out.println("2. Add Income");
-        System.out.println("3. Set Budget");
-        System.out.println("4. View Budgets");
-        System.out.println("5. View Report");
+        System.out.println("1. Add");
+        System.out.println("2. Set Budget");
+        System.out.println("3. View Budgets");
+        System.out.println("4. View Report");
         System.out.println("0. Exit");
         System.out.print("Choose option: ");
     }
 
     private static void handleChoice(int choice) {
         switch (choice) {
-            case 1 -> add.addExpense();
-            case 2 -> addIncome();
-            case 3 -> setBudget();
-            case 4 -> viewBudgets();
-            case 5 -> viewReport();
+            case 1 -> add();
+            case 2 -> setBudget();
+            case 3 -> viewBudgets();
+            case 4 -> viewReport();
             case 0 -> {
                 System.out.println("Exiting...");
                 System.exit(0);
             }
             default -> System.out.println("Invalid choice. Please try again.");
+        }
+    }
+
+    public static void add(){
+        int choice = 0;
+        while(choice != 3){
+            System.out.println("1. Add Expense");
+            System.out.println("2. Add Income");
+            System.out.println("3. Back");
+            System.out.print("Choose option: ");
+            String temp = scanner.nextLine();
+
+            try{
+                choice = Integer.parseInt(temp);
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid choice, Please try Again!");
+            }
+            switch (choice){
+                case 1 -> add.addExpense();
+                case 2 -> addIncome();
+                case 3 -> System.out.println("...");
+            }
         }
     }
 
@@ -132,22 +152,11 @@ public class ExpenseTracker {
 
         account = new Account(typeOfIncome, income);
         account.setBalance(income);
-        System.out.println("Income added successfully!");
+        records.addIncome("Income Entry", income, typeOfIncome);
+
+        System.out.println("\nIncome added successfully!\n");
 
     }
-
-    /*
-    private static void addIncome() {
-        System.out.print("Enter income amount: ");
-        double income = scanner.nextDouble();
-        scanner.nextLine();
-
-        //Add add = new Add(income);
-        records.addIncome("Income Entry", income, "General");
-
-        System.out.println("Income added successfully!\n");
-    }
-     */
 
     // Placeholder for future features
     private static void setBudget() {
