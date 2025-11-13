@@ -31,7 +31,7 @@ public class Extension {
     }
 
     private void showMenu() {
-        System.out.println("\n- Expense Tracker -");
+        System.out.println("- Expense Tracker -");
         System.out.println("1. Add Expense/Income");
         System.out.println("2. View Records");
         System.out.println("3. View Analysis");
