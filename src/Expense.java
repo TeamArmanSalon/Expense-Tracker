@@ -2,23 +2,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Expense {
-    private final List<String> category;
+    private final List<String> expenseCategories;
 
     public Expense() {
-        category = new ArrayList<>();
+        expenseCategories = new ArrayList<>();
         initializeCategories();
     }
 
     private void initializeCategories() {
-        category.add("Rental");
-        category.add("Bills");
-        category.add("Education");
-        category.add("Transportation");
-        category.add("Food");
-        category.add("Insurance");
+        expenseCategories.add("Rental");
+        expenseCategories.add("Bills");
+        expenseCategories.add("Education");
+        expenseCategories.add("Transportation");
+        expenseCategories.add("Food");
+        expenseCategories.add("Insurance");
     }
 
-    public List<String> getCategory() {
-        return category;
+    public List<String> getExpenseCategories() {
+        return expenseCategories;
+    }
+
+    public void setExpenseCategories(String category){
+        expenseCategories.add(category);
     }
 }

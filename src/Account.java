@@ -1,14 +1,35 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class Account {
     private double balance;
-    private String username;
-    private String type;
+    private String source;
+    private List<String> categoriesAccount;
 
     public Account() {
+        categoriesAccount = new ArrayList<>();
+        initializeAccount();
     }
 
-    public Account(String type, double initialBalance) {
-        this.type = type;
+    public Account(String source, double initialBalance) {
+        this.source = source;
         this.balance = initialBalance;
+        categoriesAccount = new ArrayList<>();
+        initializeAccount();
+    }
+
+    public void initializeAccount(){
+        categoriesAccount.add("Cash");
+        categoriesAccount.add("Card");
+        categoriesAccount.add("Savings");
+    }
+
+    public List<String> getCategoriesAccount() {
+        return categoriesAccount;
+    }
+
+    public void setCategoriesAccount(String category) {
+        this.categoriesAccount.add(category);
     }
 
     public double getBalance() {
@@ -17,21 +38,5 @@ public class Account {
 
     public void setBalance(double balance) {
         this.balance = balance;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 }

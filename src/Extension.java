@@ -4,6 +4,7 @@ public class Extension {
     private final Scanner scanner = new Scanner(System.in);
     private final Transaction transaction = new Transaction();
     private Account account = new Account();
+    Expense expense = new Expense();
     private User user;
 
     public void launch() {
@@ -61,7 +62,7 @@ public class Extension {
     private void addMenu() {
         int choice = 0;
         while (choice != 3) {
-            System.out.println("\n1. Add Expense");
+            System.out.println("1. Add Expense");
             System.out.println("2. Add Income");
             System.out.println("3. Back");
             System.out.print("Choose option: ");
@@ -89,10 +90,8 @@ public class Extension {
     }
 
     private void addExpense() {
-        Expense expense = new Expense();
-
-        System.out.println("Available Categories:");
-        for (String cat : expense.getCategory()) {
+        System.out.println("Available Expense Categories:");
+        for (String cat : expense.getExpenseCategories()) {
             System.out.print(cat + " | ");
         }
         System.out.println();
@@ -127,16 +126,26 @@ public class Extension {
             }
         }
 
+        if(!expense.getExpenseCategories().contains(category)){
+            expense.setExpenseCategories(category);
+        }
         transaction.addExpense(desc, amount, category);
         System.out.println("\n[ Expense added successfully! ]\n");
     }
 
     private void addIncome() {
+        System.out.println("Available Income Categories: ");
+        for(String income : account.getCategoriesAccount()){
+            System.out.print(income + " | ");
+        }
+        System.out.println();
+
         System.out.print("Enter Source of Income: ");
         String source = scanner.nextLine();
         if (source.isEmpty()) source = "Unknown Source";
 
-        double income = 0;
+
+        double income;
         while (true) {
             System.out.print("Enter Amount: ");
             String temp = scanner.nextLine();
@@ -158,7 +167,10 @@ public class Extension {
             }
         }
 
-        account = new Account(source, income);
+        if(!account.getCategoriesAccount().contains(source)){
+            account.setCategoriesAccount(source);
+        }
+
         account.setBalance(income);
         transaction.addIncome("Income Entry", income, source);
 

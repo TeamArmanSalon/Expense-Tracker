@@ -15,18 +15,18 @@ public class Transaction {
         this.account = account;
     }
 
-    public void addIncome(String name, double amount, String category) {
+    public void addIncome(String description, double amount, String category) {
         if (account != null) {
             account.setBalance(account.getBalance() + amount);
         }
-        records.add(new Record(name, amount, category, user.getName(), true));
+        records.add(new Record(description, amount, category, user.getName(), true));
     }
 
-    public void addExpense(String name, double amount, String category) {
+    public void addExpense(String description, double amount, String category) {
         if (account != null) {
             account.setBalance(account.getBalance() - amount);
         }
-        records.add(new Record(name, amount, category, user.getName(), false));
+        records.add(new Record(description, amount, category, user.getName(), false));
     }
 
     public void showRecords() {
@@ -37,7 +37,7 @@ public class Transaction {
         for (Record r : records) {
             String type = r.isIncome ? "Income" : "Expense";
             System.out.printf("%-15s | %-10.2f | %-12s | %-10s | %-8s%n",
-                    r.name, r.amount, r.category, r.userName, type);
+                    r.description, r.amount, r.category, r.userName, type);
         }
     }
 }
