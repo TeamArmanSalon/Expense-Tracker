@@ -9,10 +9,11 @@ This project was developed as part of a **final exam requirement** in the *Objec
 ---
 
 ## Features
+
 - Add new expenses with description, category, and amount  
-- Record income entries  
-- Set and manage budgets for different categories  
-- View all records (income and expenses)  
-- Display financial summaries  
-- Generate basic analysis or reports  
-- Simple text-based menu system
+- Record income entries with source and amount  
+- Set and manage budgets for various categories  
+- View all transaction records, including income and expenses  
+- Display financial summaries and current account balance  
+- Generate basic financial analysis and reports  
+- Simple, intuitive text-based menu system for easy navigation  
