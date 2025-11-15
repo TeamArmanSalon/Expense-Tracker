@@ -18,12 +18,12 @@ public class Transaction {
         this.account = account;
     }
 
-    public void addIncome(String description, double amount, String category, String accountName) {
+    public void addIncome(double amount, String category, String accountName) {
         if (account != null) {
             account.addAmount(accountName, amount);
         }
 
-        records.add(new Record(description, amount, category, user.getName(), accountName, true));
+        records.add(new Record(amount, category, user.getName(), accountName, true));
     }
 
     public boolean addExpense(String description, double amount, String category, String accountName) {
@@ -44,8 +44,15 @@ public class Transaction {
 
         for (Record r : records) {
             String type = r.isIncome ? "Income" : "Expense";
+            String setDesc = "";
+            if(type.equals("Income")) {
+                setDesc = "No Description";
+            }
+            else if(type.equals("Expense")) {
+                setDesc = r.description;
+            }
             System.out.printf("%-15s | %-10.2f | %-12s | %-10s | %-10s | %-8s%n",
-                    r.description, r.amount, r.category, r.accountName, r.userName, type);
+                    setDesc, r.amount, r.category, r.accountName, r.userName, type);
         }
         System.out.println();
     }
