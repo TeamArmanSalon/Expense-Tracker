@@ -1,11 +1,14 @@
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class Transaction {
     private Account account;
     private User user;
 
     private final List<Record> records = new ArrayList<>();
+
+    public List<Record> getRecords() {
+        return records;
+    }
 
     public void setUser(User user) {
         this.user = user;
@@ -15,29 +18,35 @@ public class Transaction {
         this.account = account;
     }
 
-    public void addIncome(String description, double amount, String category) {
+    public void addIncome(String description, double amount, String category, String accountName) {
         if (account != null) {
-            account.setBalance(account.getBalance() + amount);
+            account.addAmount(accountName, amount);
         }
-        records.add(new Record(description, amount, category, user.getName(), true));
+
+        records.add(new Record(description, amount, category, user.getName(), accountName, true));
     }
 
-    public void addExpense(String description, double amount, String category) {
+    public boolean addExpense(String description, double amount, String category, String accountName) {
         if (account != null) {
-            account.setBalance(account.getBalance() - amount);
+            boolean success = account.subtractAmount(accountName, amount);
+            if (!success) return false; // not enough balance
         }
-        records.add(new Record(description, amount, category, user.getName(), false));
+
+        records.add(new Record(description, amount, category, user.getName(), accountName, false));
+        return true;
     }
 
     public void showRecords() {
         System.out.println("\n--- All Transactions ---");
-        System.out.printf("%-15s | %-10s | %-12s | %-10s | %-8s%n", "Description", "Amount", "Category", "User Name", "Type");
-        System.out.println("--------------------------------------------------------------------------------");
+        System.out.printf("%-15s | %-10s | %-12s | %-10s | %-10s | %-8s%n",
+                "Description", "Amount", "Category", "Account", "User", "Type");
+        System.out.println("----------------------------------------------------------------------------------------------");
 
         for (Record r : records) {
             String type = r.isIncome ? "Income" : "Expense";
-            System.out.printf("%-15s | %-10.2f | %-12s | %-10s | %-8s%n",
-                    r.description, r.amount, r.category, r.userName, type);
+            System.out.printf("%-15s | %-10.2f | %-12s | %-10s | %-10s | %-8s%n",
+                    r.description, r.amount, r.category, r.accountName, r.userName, type);
         }
+        System.out.println();
     }
 }

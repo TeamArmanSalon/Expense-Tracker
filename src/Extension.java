@@ -1,3 +1,6 @@
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 public class Extension {
@@ -13,7 +16,7 @@ public class Extension {
 
         int choice;
         while (true) {
-            showMenu();
+            mainMenu();
             String temp = scanner.nextLine();
 
             if (temp.isEmpty()) {
@@ -31,7 +34,7 @@ public class Extension {
         }
     }
 
-    private void showMenu() {
+    private void mainMenu() {
         System.out.println("- Expense Tracker -");
         System.out.println("1. Add Expense/Income");
         System.out.println("2. View Records");
@@ -45,11 +48,11 @@ public class Extension {
 
     private void handleChoice(int choice) {
         switch (choice) {
-            case 1 -> addMenu();
+            case 1 -> addExpenseAndIncome();
             case 2 -> transaction.showRecords();
-            case 3 -> System.out.println("Analysis feature coming soon...");
+            case 3 -> viewAnalysis();
             case 4 -> System.out.println("Budget feature coming soon...");
-            case 5 -> showAccount();
+            case 5 -> showAccountMenu();
             case 6 -> System.out.println("Category management coming soon...");
             case 0 -> {
                 System.out.println("Exiting... Goodbye!");
@@ -59,7 +62,7 @@ public class Extension {
         }
     }
 
-    private void addMenu() {
+    private void addExpenseAndIncome() {
         int choice = 0;
         while (choice != 3) {
             System.out.println("1. Add Expense");
@@ -83,13 +86,27 @@ public class Extension {
             switch (choice) {
                 case 1 -> addExpense();
                 case 2 -> addIncome();
-                case 3 -> System.out.println("Returning to main menu...");
+                case 3 -> System.out.println("Returning to main menu...\n");
                 default -> System.out.println("[ Invalid option! Try again. ]");
             }
         }
     }
 
     private void addExpense() {
+
+        System.out.println("Available Accounts:");
+        for (String acc : account.getCategoriesAccount()) {
+            System.out.print(acc + " | ");
+        }
+        System.out.println();
+
+        System.out.print("Select Account: ");
+        String accountName = scanner.nextLine();
+        if (!account.getCategoriesAccount().contains(accountName)) {
+            System.out.println("[ Account does not exist! Expense cancelled. ]");
+            return;
+        }
+
         System.out.println("Available Expense Categories:");
         for (String cat : expense.getExpenseCategories()) {
             System.out.print(cat + " | ");
@@ -104,7 +121,7 @@ public class Extension {
         String desc = scanner.nextLine();
         if (desc.isEmpty()) desc = "No Description";
 
-        double amount = 0;
+        double amount;
         while (true) {
             System.out.print("Enter Amount: ");
             String temp = scanner.nextLine();
@@ -122,28 +139,39 @@ public class Extension {
                 }
                 break;
             } catch (NumberFormatException e) {
-                System.out.println("[ Invalid input! Please enter a valid number. ]");
+                System.out.println("[ Invalid input! Enter a number. ]");
             }
         }
 
-        if(!expense.getExpenseCategories().contains(category)){
+        if (!expense.getExpenseCategories().contains(category)) {
             expense.setExpenseCategories(category);
         }
-        transaction.addExpense(desc, amount, category);
+
+        boolean success = transaction.addExpense(desc, amount, category, accountName);
+
+        if (!success) {
+            System.out.println("[ Not enough balance in this account! ]");
+            return;
+        }
+
         System.out.println("\n[ Expense added successfully! ]\n");
     }
 
+
     private void addIncome() {
-        System.out.println("Available Income Categories: ");
-        for(String income : account.getCategoriesAccount()){
-            System.out.print(income + " | ");
+        System.out.println("Available Accounts: ");
+        for (String acc : account.getCategoriesAccount()) {
+            System.out.print(acc + " | ");
         }
         System.out.println();
 
         System.out.print("Enter Source of Income: ");
-        String source = scanner.nextLine();
+        String source = scanner.nextLine().trim();
         if (source.isEmpty()) source = "Unknown Source";
 
+        if(!account.getCategoriesAccount().contains(source)){
+            account.addNewAccount(source);
+        }
 
         double income;
         while (true) {
@@ -167,26 +195,124 @@ public class Extension {
             }
         }
 
-        if(!account.getCategoriesAccount().contains(source)){
-            account.setCategoriesAccount(source);
+        account.addAmount(source, income);
+
+        transaction.addIncome("Income Entry", income, source,  source);
+
+        System.out.println("\n[ Income added successfully to " + source + "! ]\n");
+    }
+
+
+    private void showAccountMenu() {
+        int choice = -1;
+
+        while (choice != 4) {
+            System.out.println("1. View Accounts");
+            System.out.println("2. Add New Account");
+            System.out.println("3. Add Balance Account");
+            System.out.println("4. Back");
+            System.out.print("Choose option: ");
+
+            String temp = scanner.nextLine();
+
+            if (temp.isEmpty()) {
+                System.out.println("[ Must not be empty! ]");
+                continue;
+            }
+
+            try {
+                choice = Integer.parseInt(temp);
+            } catch (NumberFormatException e) {
+                System.out.println("[ Invalid input! Please enter a valid number. ]");
+                continue;
+            }
+
+            switch (choice) {
+                case 1 -> showAccount();
+                case 2 -> addNewAccount();
+                case 3 -> addBalanceToAccount();
+                case 4 -> System.out.println("Returning to main menu...");
+                default -> System.out.println("[ Invalid option! Try again. ]");
+            }
+        }
+    }
+
+    private void addNewAccount() {
+        System.out.print("Enter new account name: ");
+        String newAccount = scanner.nextLine().trim();
+
+        if (newAccount.isEmpty()) {
+            System.out.println("[ Account name cannot be empty! ]");
+            return;
         }
 
-        account.setBalance(income);
-        transaction.addIncome("Income Entry", income, source);
+        if (account.accountExists(newAccount)) {
+            System.out.println("[ Account already exists! ]");
+            return;
+        }
 
-        System.out.println("\n[ Income added successfully! ]\n");
+        account.addNewAccount(newAccount);
+        System.out.println("[ New account '" + newAccount + "' added with balance 0.0 ]");
+    }
+
+    private void addBalanceToAccount() {
+        System.out.println("Available Accounts: ");
+        for (String acc : account.getAllBalances().keySet()) {
+            System.out.print(acc + " | ");
+        }
+        System.out.println();
+
+        System.out.print("Enter Account: ");
+        String source = scanner.nextLine();
+        if (source.isEmpty()) source = "Unknown Source";
+
+        double income;
+        while (true) {
+            System.out.print("Enter Amount: ");
+            String temp = scanner.nextLine();
+
+            if (temp.isEmpty()) {
+                System.out.println("[ Must not be empty! ]");
+                continue;
+            }
+
+            try {
+                income = Double.parseDouble(temp);
+                if (income <= 0) {
+                    System.out.println("[ Amount must be greater than 0! ]");
+                    continue;
+                }
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println("[ Invalid input! Please enter a valid number. ]");
+            }
+        }
+
+        account.addAmount(source, income);
+        transaction.addIncome("Income Entry", income, source, user.getName());
+
+        System.out.println("\n[ Balance added successfully to " + source + "! ]\n");
     }
 
     private void showAccount() {
         System.out.println("\n--- Account Info ---");
+
         if (user == null) {
             System.out.println("[ No user registered. ]");
             return;
         }
+
         System.out.println("Name: " + user.getName());
-        System.out.println("Current Balance: " + account.getBalance());
+        System.out.println("----------------------");
+        System.out.println("Balances per Account:");
+
+        for (var entry : account.getAllBalances().entrySet()) {
+            System.out.printf("%-15s : %.2f%n", entry.getKey(), entry.getValue());
+        }
+
         System.out.println("----------------------");
     }
+
 
     public void registerUser() {
         System.out.print("Enter Name: ");
@@ -218,4 +344,52 @@ public class Extension {
 
         System.out.println("\n[ Account created successfully! ]\n");
     }
+
+    private void viewAnalysis() {
+        List<Record> records = transaction.getRecords();
+
+        if (records.isEmpty()) {
+            System.out.println("\n[ No records available for analysis. ]\n");
+            return;
+        }
+
+        double totalIncome = 0;
+        double totalExpense = 0;
+
+        Map<String, Double> categoryTotals = new HashMap<>();
+
+        for (Record r : records) {
+            if (r.isIncome) {
+                totalIncome += r.amount;
+            } else {
+                totalExpense += r.amount;
+            }
+
+            categoryTotals.put(r.category, categoryTotals.getOrDefault(r.category, 0.0) + r.amount);
+        }
+
+        double balance = totalIncome - totalExpense;
+
+        System.out.println("\n--- Analysis Report ---");
+        System.out.printf("Total Income : %.2f\n", totalIncome);
+        System.out.printf("Total Expense: %.2f\n", totalExpense);
+        System.out.printf("Total Balance  : %.2f\n", balance);
+        System.out.println("------------------------");
+
+        System.out.println("\n--- Income Overview  ---");
+        for (Record r : records) {
+            if (r.isIncome) {
+                System.out.printf("%-15s : %.2f%n", r.category, r.amount);
+            }
+        }
+
+        System.out.println("\n--- Expense Overview ---");
+        for (Record r : records) {
+            if (!r.isIncome) {
+                System.out.printf("%-15s : %.2f%n", r.category, r.amount);
+            }
+        }
+        System.out.println("------------------------\n");
+    }
+
 }

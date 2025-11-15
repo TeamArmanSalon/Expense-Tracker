@@ -1,42 +1,55 @@
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class Account {
-    private double balance;
-    private String source;
+
     private List<String> categoriesAccount;
+    private Map<String, Double> accountBalances;
 
     public Account() {
         categoriesAccount = new ArrayList<>();
+        accountBalances = new HashMap<>();
         initializeAccount();
     }
 
-    public Account(String source, double initialBalance) {
-        this.source = source;
-        this.balance = initialBalance;
-        categoriesAccount = new ArrayList<>();
-        initializeAccount();
+    private void initializeAccount() {
+        addNewAccount("Cash");
+        addNewAccount("Card");
+        addNewAccount("Savings");
     }
 
-    public void initializeAccount(){
-        categoriesAccount.add("Cash");
-        categoriesAccount.add("Card");
-        categoriesAccount.add("Savings");
+    public boolean accountExists(String name) {
+        return accountBalances.containsKey(name);
+    }
+
+    public void addNewAccount(String accountName) {
+        if (!accountExists(accountName)) {
+            categoriesAccount.add(accountName);
+            accountBalances.put(accountName, 0.0);
+        }
     }
 
     public List<String> getCategoriesAccount() {
         return categoriesAccount;
     }
 
-    public void setCategoriesAccount(String category) {
-        this.categoriesAccount.add(category);
+    public void addAmount(String accountName, double amount) {
+        if (accountExists(accountName)) {
+            accountBalances.put(accountName, accountBalances.get(accountName) + amount);
+        }
     }
 
-    public double getBalance() {
-        return balance;
+    public boolean subtractAmount(String accountName, double amount) {
+        if (accountExists(accountName)) {
+            double current = accountBalances.get(accountName);
+            if (current >= amount) {
+                accountBalances.put(accountName, current - amount);
+                return true;
+            }
+        }
+        return false;
     }
 
-    public void setBalance(double balance) {
-        this.balance = balance;
+    public Map<String, Double> getAllBalances() {
+        return accountBalances;
     }
 }
