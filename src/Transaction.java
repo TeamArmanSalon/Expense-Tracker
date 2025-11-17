@@ -51,8 +51,8 @@ public class Transaction {
             else if(type.equals("Expense")) {
                 setDesc = r.description;
             }
-            System.out.printf("%-15s | %-10.2f | %-12s | %-10s | %-10s | %-8s%n",
-                    setDesc, r.amount, r.category, r.accountName, r.userName, type);
+            System.out.printf("%-15s | %-10.2f%c | %-12s | %-10s | %-10s | %-8s%n",
+                    setDesc, r.amount, account.getCurrency(), r.category, r.accountName, r.userName, type);
         }
         System.out.println();
     }

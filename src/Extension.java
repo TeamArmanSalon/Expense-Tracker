@@ -6,7 +6,7 @@ import java.util.Scanner;
 public class Extension {
     private final Scanner scanner = new Scanner(System.in);
     private final Transaction transaction = new Transaction();
-    private Account account = new Account();
+    private Account account = new Account('₱'); //default currency
     Expense expense = new Expense();
     private User user;
 
@@ -45,12 +45,13 @@ public class Extension {
 
     private void mainMenu() {
         System.out.println("- Expense Tracker -");
-        System.out.println("1. Add Expense/Income");
+        System.out.println("1. Expense & Income");
         System.out.println("2. View Records");
         System.out.println("3. View Analysis");
         System.out.println("4. Manage Budgets");
         System.out.println("5. Manage Accounts");
         System.out.println("6. Manage Categories");
+        System.out.println("7. Settings");
         System.out.println("0. Exit");
         System.out.print("Choose option: ");
     }
@@ -63,6 +64,7 @@ public class Extension {
             case 4 -> System.out.println("Budget feature coming soon...");
             case 5 -> showAccountMenu();
             case 6 -> System.out.println("Category management coming soon...");
+            case 7 -> settings();
             case 0 -> {
                 System.out.println("Exiting... Goodbye!");
                 System.exit(0);
@@ -71,9 +73,312 @@ public class Extension {
         }
     }
 
+    public void settings() {
+        int choice = -1;
+
+        while (choice != 0) {
+            System.out.println("\n- Settings -");
+            System.out.println("1. Profiles");
+            System.out.println("2. Edit Records");
+            System.out.println("3. Delete Records");
+            System.out.println("4. Change Currency");
+            System.out.println("5. Help");
+            System.out.println("6. About Us");
+            System.out.println("0. Back");
+            System.out.print("Select an option: ");
+            String temp = scanner.nextLine();
+
+            if (temp.isEmpty()) {
+                System.out.println("[ Must not be empty! ]");
+                continue;
+            }
+
+            try {
+                choice = Integer.parseInt(temp);
+            } catch (NumberFormatException e) {
+                System.out.println("[ Invalid input! Enter a number. ]");
+                continue;
+            }
+
+            switch (choice) {
+                case 1 -> manageProfiles();
+                case 2 -> editRecord();
+                case 3 -> deleteRecord();
+                case 4 -> changeCurrency();
+                case 5 -> showHelp();
+                case 6 -> about();
+                case 0 -> System.out.println("...");
+                default -> System.out.println("[ Invalid option! Try again. ]");
+            }
+        }
+    }
+
+    private void manageProfiles() {
+        int choice = -1;
+
+        while(choice != 0){
+            System.out.println("1. View Current Profile");
+            System.out.println("2. Change Name");
+            System.out.println("3. Change Password");
+            System.out.println("0. Back");
+            System.out.print("Choose option: ");
+
+            String temp = scanner.nextLine();
+
+            if (temp.isEmpty()) {
+                System.out.println("[ Must not be empty! ]");
+                return;
+            }
+
+            try {
+                choice = Integer.parseInt(temp);
+            } catch (NumberFormatException e) {
+                System.out.println("[ Invalid input! ]");
+                return;
+            }
+
+            switch (choice) {
+                case 1 -> System.out.printf("\nYour current profile is [ %s ]\n\n", user.getName());
+                case 2 -> {
+                    System.out.print("Enter new name: ");
+                    String newName = scanner.nextLine();
+
+                    while (!newName.matches("[a-zA-Z ,.]+")) {
+                        System.out.println("[ Name must contain only letters, spaces, commas, or dots. ]");
+                        System.out.print("Enter Name: ");
+                        newName = scanner.nextLine();
+                    }
+
+                    user.setName(newName);
+                    System.out.println("Name updated...");
+                }
+                case 3 -> {
+                    String passwordRegex = "^(?=.{12,64}$)(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*\\W).*$";
+                    String newPassword;
+
+                    while (true) {
+                        System.out.print("Enter new password: ");
+                        newPassword = scanner.nextLine();
+                        if (newPassword.isEmpty()) {
+                            System.out.println("[ Password cannot be empty. ]");
+                        } else if (!newPassword.matches(passwordRegex)) {
+                            System.out.println("[ Password must be at least 12 chars with uppercase, lowercase, number, and symbol. ]");
+                        } else {
+                            break;
+                        }
+                    }
+
+                    user.setPassword(newPassword);
+                    System.out.println("Password updated...");
+                }
+                case 0 -> System.out.println("...");
+                default -> System.out.println("[ Invalid option! ]");
+            }
+        }
+    }
+
+    private void editRecord() {
+        List<Record> records = transaction.getRecords();
+
+        if (records.isEmpty()) {
+            System.out.println("[ No records found! ]");
+            return;
+        }
+
+        for (int i = 0; i < records.size(); i++) {
+            System.out.println(i + ". " + records.get(i));
+        }
+
+        System.out.print("Select record number you want to edit: ");
+        String temp = scanner.nextLine();
+
+        if (temp.isEmpty()) {
+            System.out.println("[ Must not be empty! ]");
+            return;
+        }
+
+        int index;
+        try {
+            index = Integer.parseInt(temp);
+        } catch (NumberFormatException e) {
+            System.out.println("[ Invalid number! ]");
+            return;
+        }
+
+        if (index < 0 || index >= records.size()) {
+            System.out.println("[ Invalid record index! ]");
+            return;
+        }
+
+        Record r = records.get(index);
+
+        System.out.printf("Old description: %s\n", r.description);
+        System.out.print("Enter new description (press \"s\" to keep): ");
+        String newDesc = scanner.nextLine().trim();
+
+        if(newDesc.isEmpty()){
+            System.out.println("[ Must not be empty! ]");
+            return;
+        }
+
+        if (!newDesc.equalsIgnoreCase("s")) {
+            r.description = newDesc;
+        }
+        else{
+            System.out.println("[ We keep the old description. ]");
+        }
+
+        System.out.print("Enter new amount (press \"s\" to keep): ");
+        String amt = scanner.nextLine().trim();
+
+        if(amt.isEmpty()){
+            System.out.println("[ Must not be empty! ]");
+            return;
+        }
+
+        if (!amt.equalsIgnoreCase("s")) {
+            try {
+                double newAmount = Double.parseDouble(amt);
+                r.amount = newAmount;
+            } catch (NumberFormatException e) {
+                System.out.println("[ Invalid amount! ]");
+            }
+        }
+        else{
+            System.out.println("[ We keep the old amount. ]");
+        }
+
+        System.out.println("Record updated!...");
+    }
+
+    private void deleteRecord() {
+        int choice = -1;
+
+        while(choice != 0){
+            System.out.println("1. Delete one record");
+            System.out.println("2. Delete ALL records");
+            System.out.println("0. Back");
+            System.out.print("Choose option: ");
+
+            String temp = scanner.nextLine();
+
+            if (temp.isEmpty()) {
+                System.out.println("[ Must not be empty! ]");
+                return;
+            }
+
+            try {
+                choice = Integer.parseInt(temp);
+            } catch (NumberFormatException e) {
+                System.out.println("[ Invalid input! ]");
+                return;
+            }
+
+            switch (choice) {
+                case 1 -> {
+                    List<Record> records = transaction.getRecords();
+                    if (records.isEmpty()) {
+                        System.out.println("[ No records to delete! ]");
+                        return;
+                    }
+
+                    for (int i = 0; i < records.size(); i++) {
+                        System.out.println(i + ". " + records.get(i));
+                    }
+
+                    System.out.print("Select record number: ");
+                    String idx = scanner.nextLine();
+
+                    if (idx.isEmpty()) {
+                        System.out.println("[ Must not be empty! ]");
+                        return;
+                    }
+
+                    try {
+                        int index = Integer.parseInt(idx);
+                        if (index >= 0 && index < records.size()) {
+                            records.remove(index);
+
+                            System.out.println("Record deleted successfully!...");
+                        }
+                        else {
+                            System.out.println("[ Invalid record index! ]");
+                        }
+                    } catch (NumberFormatException e) {
+                        System.out.println("[ Invalid Input! Please enter a number. ]");
+                    }
+                }
+
+                case 2 -> {
+                    transaction.getRecords().clear();
+                    System.out.println("All records cleared!...");
+                }
+
+                case 0 -> System.out.println("...");
+                default -> System.out.println("[ Invalid option! ]");
+            }
+        }
+    }
+
+
+    private void changeCurrency() {
+        String[] currencies = { "₱", "$", "€", "¥", "£", "₹", "₩", "₫", "₦", "₲", "₴", "₡", "₸", "₽", "฿", "₭"};
+        System.out.println("""
+                \n⚠ Please be cautious when entering currency symbols.
+                Some symbols may not be supported by our system or may cause errors.
+                Make sure you type the correct symbol as required.
+                """);
+        System.out.print("Available currencies in our system: ");
+        for(String currency : currencies){
+            System.out.print(currency + " | ");
+        }
+        System.out.println();
+
+        System.out.print("Enter new currency symbol: ");
+        String temp = scanner.nextLine();
+
+        if (temp.isEmpty()) {
+            System.out.println("\n[ Must not be empty! ]");
+            return;
+        }
+        else if(temp.length() != 1){
+            System.out.println("\n[ Enter only one symbol ]");
+            return;
+        }
+
+        char symbol = '\0'; //empty char
+        boolean notContains = true;
+        for(String c : currencies){
+            if(temp.contains(c)){
+                symbol = temp.charAt(0);
+                notContains = false;
+                break;
+            }
+        }
+
+        if(notContains){
+            System.out.println("\n[ Enter currency that available in our system. ]");
+        }
+        else{
+            account.setCurrency(symbol);
+            System.out.println("\nCurrency changed to \"" + symbol + "\"...");
+        }
+    }
+
+    private void showHelp() {
+        System.out.println("Use settings to manage profiles, edit records, change currency.");
+    }
+
+    private void about() {
+        System.out.println("Expense Tracker v1.0");
+        System.out.println("Project in OOP (Object Oriented Programming)");
+    }
+
+
     private void addExpenseAndIncome() {
         int choice = 0;
         while (choice != 3) {
+            System.out.println("\n- Expense/Income -");
             System.out.println("1. Add Expense");
             System.out.println("2. Add Income");
             System.out.println("3. Back");
@@ -95,7 +400,7 @@ public class Extension {
             switch (choice) {
                 case 1 -> addExpense();
                 case 2 -> addIncome();
-                case 3 -> System.out.println("Returning to main menu...\n");
+                case 3 -> System.out.println("...\n");
                 default -> System.out.println("[ Invalid option! Try again. ]");
             }
         }
@@ -123,7 +428,7 @@ public class Extension {
             return;
         }
 
-        System.out.println("Available Expense Categories:");
+        System.out.println("Available Expense Categories (Can be Added):");
         for (String cat : expense.getExpenseCategories()) {
             System.out.print(cat + " | ");
         }
@@ -288,6 +593,7 @@ public class Extension {
         int choice = -1;
 
         while (choice != 4) {
+            System.out.println("\n- Account -");
             System.out.println("1. View Accounts");
             System.out.println("2. Add New Account");
             System.out.println("3. Add Balance Account");

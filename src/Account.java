@@ -4,11 +4,21 @@ public class Account {
 
     private List<String> categoriesAccount;
     private Map<String, Double> accountBalances;
+    private char currency;
 
-    public Account() {
+    public Account(char currency) {
         categoriesAccount = new ArrayList<>();
         accountBalances = new HashMap<>();
+        this.currency = currency;
         initializeAccount();
+    }
+
+    public char getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(char currency) {
+        this.currency = currency;
     }
 
     private void initializeAccount() {
