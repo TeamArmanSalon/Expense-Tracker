@@ -372,10 +372,15 @@ public class Extension {
         System.out.println("""
                 \nExpense Tracker v1.0
                 Project in OOP (Object Oriented Programming)
-                Created: 2025 November
+                Created: November 2025
                 [Member]
-                    * Lucmayan, Joshan.
-                    * 
+                    * Lucmayan, Joshan
+                    * Cubero, Marc lean N.
+                    * Evangelista, Ahldee
+                    * Heruela, Dave
+                    * Tenorio, Nadine D.
+                    * Arellano, Ericka
+                    * Dela Cruz, Tricia C
                 """);
     }
 
