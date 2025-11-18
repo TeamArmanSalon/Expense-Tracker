@@ -1,12 +1,9 @@
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 public class Extension {
     private final Scanner scanner = new Scanner(System.in);
-    private final Transaction transaction = new Transaction();
     private Account account = new Account('₱'); //default currency
+    private final Transaction transaction = new Transaction(account);
     Expense expense = new Expense();
     private User user;
 
@@ -83,7 +80,7 @@ public class Extension {
             System.out.println("3. Delete Records");
             System.out.println("4. Change Currency");
             System.out.println("5. Help");
-            System.out.println("6. About Us");
+            System.out.println("6. About");
             System.out.println("0. Back");
             System.out.print("Select an option: ");
             String temp = scanner.nextLine();
@@ -335,7 +332,7 @@ public class Extension {
         System.out.println();
 
         System.out.print("Enter new currency symbol: ");
-        String temp = scanner.nextLine();
+        String temp = scanner.nextLine().trim();
 
         if (temp.isEmpty()) {
             System.out.println("\n[ Must not be empty! ]");
@@ -366,22 +363,30 @@ public class Extension {
     }
 
     private void showHelp() {
-        System.out.println("Use settings to manage profiles, edit records, change currency.");
+        System.out.println("\nIf you need help or you want to report some error or bug,\n" +
+                "contact us via github.");
+        System.out.println("Github: https://github.com/TeamArmanSalon\n");
     }
 
     private void about() {
-        System.out.println("Expense Tracker v1.0");
-        System.out.println("Project in OOP (Object Oriented Programming)");
+        System.out.println("""
+                \nExpense Tracker v1.0
+                Project in OOP (Object Oriented Programming)
+                Created: 2025 November
+                [Member]
+                    * Lucmayan, Joshan.
+                    * 
+                """);
     }
 
 
     private void addExpenseAndIncome() {
-        int choice = 0;
-        while (choice != 3) {
+        int choice = -1;
+        while (choice != 0) {
             System.out.println("\n- Expense/Income -");
             System.out.println("1. Add Expense");
             System.out.println("2. Add Income");
-            System.out.println("3. Back");
+            System.out.println("0. Back");
             System.out.print("Choose option: ");
             String temp = scanner.nextLine();
 
@@ -400,16 +405,30 @@ public class Extension {
             switch (choice) {
                 case 1 -> addExpense();
                 case 2 -> addIncome();
-                case 3 -> System.out.println("...\n");
+                case 0 -> System.out.println("...\n");
                 default -> System.out.println("[ Invalid option! Try again. ]");
             }
         }
     }
 
     private void addExpense() {
-        System.out.println("Available Accounts:");
-        for (String acc : account.getCategoriesAccount()) {
-            System.out.print(acc + " | ");
+
+        Map<String, Double> accounts = account.getAllBalances();
+        boolean zeroBalance = accounts.values().stream().allMatch(a -> a == 0);
+
+        if(zeroBalance){
+            System.out.println("\nYou have zero balance in your accounts!");
+            System.out.println("Tip: Go to \"Add Income\" to set your balance.");
+            return;
+        }
+
+        System.out.println("\nNOTE: Please enter your expense amount carefully.");
+        System.out.println("Make sure the amount does not exceed your available balance.");
+        System.out.println("Entering an amount higher than your balance may cause error.\n");
+
+        System.out.println("Available Accounts: ");
+        for(var entry : account.getAllBalances().entrySet()){
+            System.out.printf("%s: %c%.2f | ", entry.getKey(), account.getCurrency(), entry.getValue());
         }
         System.out.println();
 
@@ -477,7 +496,7 @@ public class Extension {
         boolean success = transaction.addExpense(desc, amount, category, accountName);
 
         if (!success) {
-            System.out.println("[ Not enough balance in this account! ]");
+            System.out.println("\n[ Not enough balance! Expense Cancelled... ]");
             return;
         }
 
@@ -486,9 +505,9 @@ public class Extension {
 
 
     private void addIncome() {
-        System.out.println("Existing Accounts: ");
-        for (String acc : account.getCategoriesAccount()) {
-            System.out.print(acc + " | ");
+        System.out.println("Existing Accounts (Can be added): ");
+        for(var entry : account.getAllBalances().entrySet()){
+            System.out.printf("%s: %c%.2f | ", entry.getKey(), account.getCurrency(), entry.getValue());
         }
         System.out.println();
 
@@ -532,8 +551,6 @@ public class Extension {
             }
         }
 
-        account.addAmount(source, income);
-
         transaction.addIncome(income, source,  source);
 
         System.out.println("\n[ Income added successfully to " + source + "! ]\n");
@@ -571,13 +588,16 @@ public class Extension {
         System.out.println("------------------------\n");
 
         System.out.println("\n--- Income Overview  ---");
+
+        records.sort(Comparator.comparingDouble((Record a) -> a.amount).reversed());
+
         for (Record r : records) {
             if (r.isIncome) {
                 System.out.printf("%-15s : %.2f%n", r.category, r.amount);
             }
         }
 
-        System.out.println("\n--- Expense Overview ---\n");
+        System.out.println("\n--- Expense Overview ---");
         for (Record r : records) {
             if (!r.isIncome) {
                 System.out.printf("%-15s : %.2f%n", r.category, r.amount);

@@ -8,9 +8,10 @@ public class ExpenseTracker {
     Problem:
     DONE - Should be able to edit, delete
     DONE - Change Name of number one menu (Should be Expense & Income)
-    - Greater Expense and Income
+    DONE - Greater Expense and Income
     - Add null condition to analysis
     - format description if long
+    - toString edit and delete records
 
     Features:
     - Transfer

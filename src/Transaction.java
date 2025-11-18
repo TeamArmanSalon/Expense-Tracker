@@ -3,8 +3,11 @@ import java.util.*;
 public class Transaction {
     private Account account;
     private User user;
-
     private final List<Record> records = new ArrayList<>();
+
+    Transaction(Account account){
+        this.account = account;
+    }
 
     public List<Record> getRecords() {
         return records;
@@ -44,15 +47,11 @@ public class Transaction {
 
         for (Record r : records) {
             String type = r.isIncome ? "Income" : "Expense";
-            String setDesc = "";
             if(type.equals("Income")) {
-                setDesc = "No Description";
+                r.description = "No Description"; //default
             }
-            else if(type.equals("Expense")) {
-                setDesc = r.description;
-            }
-            System.out.printf("%-15s | %-10.2f%c | %-12s | %-10s | %-10s | %-8s%n",
-                    setDesc, r.amount, account.getCurrency(), r.category, r.accountName, r.userName, type);
+            System.out.printf("%-15s | %c%-10.2f | %-12s | %-10s | %-10s | %-8s%n",
+                    r.description, account.getCurrency(), r.amount, r.category, r.accountName, r.userName, type);
         }
         System.out.println();
     }
