@@ -15,5 +15,6 @@ public class ExpenseTracker {
 
     Features:
     - Transfer
+    - when entering pass hide it
      */
 }
