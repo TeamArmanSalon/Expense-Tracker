@@ -44,15 +44,56 @@ public class Transaction {
         System.out.printf("%-15s | %-10s | %-12s | %-10s | %-10s | %-8s%n",
                 "Description", "Amount", "Category", "Account", "User", "Type");
         System.out.println("----------------------------------------------------------------------------------------------");
-
+        List<String> tempDesc = null;
         for (Record r : records) {
             String type = r.isIncome ? "Income" : "Expense";
-            if(type.equals("Income")) {
-                r.description = "No Description"; //default
+            String newDesc = "";
+            boolean isExpenseDesc_IsGreaterThan = true; //means greater than 15 characters
+
+            if(type.equals("Income")){
+                newDesc = "No Description";
+                isExpenseDesc_IsGreaterThan = false;
             }
+            else if(r.description.length() > 15){
+                tempDesc = wrapWords(r.description, 15);
+                newDesc = tempDesc.getFirst();
+            }
+            else{
+                newDesc = r.description;
+                isExpenseDesc_IsGreaterThan = false;
+            }
+
             System.out.printf("%-15s | %c%-10.2f | %-12s | %-10s | %-10s | %-8s%n",
-                    r.description, account.getCurrency(), r.amount, r.category, r.accountName, r.userName, type);
+                    newDesc, account.getCurrency(), r.amount, r.category, r.accountName, r.userName, type);
+
+            if(isExpenseDesc_IsGreaterThan){
+                for (int i = 1; i < tempDesc.size(); i++) {
+                    System.out.println(tempDesc.get(i));
+                }
+            }
         }
         System.out.println();
+    }
+
+    public List<String> wrapWords(String text, int width) {
+        List<String> lines = new ArrayList<>();
+        String[] words = text.split(" ");
+
+        StringBuilder current = new StringBuilder();
+
+        for (String word : words) {
+            if (current.length() + word.length() + 1 > width) {
+                lines.add(current.toString());
+                current = new StringBuilder(word);
+            } else {
+                if (current.isEmpty()) current.append(" ");
+                current.append(word);
+            }
+        }
+
+        if (current.isEmpty()) {
+            lines.add(current.toString());
+        }
+        return lines;
     }
 }

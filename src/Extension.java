@@ -587,8 +587,8 @@ public class Extension {
         double balance = totalIncome - totalExpense;
 
         System.out.println("\n--- Analysis Report ---");
-        System.out.printf("Total Income : %.2f\n", totalIncome);
-        System.out.printf("Total Expense: %.2f\n", totalExpense);
+        System.out.printf("Total Income   : %.2f\n", totalIncome);
+        System.out.printf("Total Expense  : %.2f\n", totalExpense);
         System.out.printf("Total Balance  : %.2f\n", balance);
         System.out.println("------------------------\n");
 
@@ -596,17 +596,29 @@ public class Extension {
 
         records.sort(Comparator.comparingDouble((Record a) -> a.amount).reversed());
 
+        boolean haveNoIncome = true;
+        boolean haveNoExpense = true;
         for (Record r : records) {
-            if (r.isIncome) {
+            if (r.isIncome && r.amount != 0.00) {
                 System.out.printf("%-15s : %.2f%n", r.category, r.amount);
+                haveNoIncome = false;
             }
+        }
+
+        if(haveNoIncome){
+            System.out.println("[ You don't have income yet. ]");
         }
 
         System.out.println("\n--- Expense Overview ---");
         for (Record r : records) {
-            if (!r.isIncome) {
+            if (!r.isIncome && r.amount != 0.00) {
                 System.out.printf("%-15s : %.2f%n", r.category, r.amount);
+                haveNoExpense = false;
             }
+        }
+
+        if(haveNoExpense){
+            System.out.println("[ You don't have expenses yet. ]");
         }
         System.out.println("------------------------\n");
     }
