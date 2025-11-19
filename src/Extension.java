@@ -183,7 +183,7 @@ public class Extension {
         }
 
         for (int i = 0; i < records.size(); i++) {
-            System.out.println(i + ". " + records.get(i));
+            System.out.println(i + ". " + records.get(i).toString());
         }
 
         System.out.print("Select record number you want to edit: ");
@@ -280,7 +280,7 @@ public class Extension {
                     }
 
                     for (int i = 0; i < records.size(); i++) {
-                        System.out.println(i + ". " + records.get(i));
+                        System.out.println(i + ". " + records.get(i).toString());
                     }
 
                     System.out.print("Select record number: ");

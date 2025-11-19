@@ -11,7 +11,7 @@ public class ExpenseTracker {
     DONE - Greater Expense and Income
     DONE - check if there's expense or income to view in analysis
     DONE - format description if long
-    - toString edit and delete records
+    DONE - toString edit and delete records
 
     Optional:
     format every record details if long

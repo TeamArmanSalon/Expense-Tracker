@@ -26,7 +26,7 @@ public class Transaction {
             account.addAmount(accountName, amount);
         }
 
-        records.add(new Record(amount, category, user.getName(), accountName, true));
+        records.add(new Record(amount, category, user.getName(), accountName, true, account.getCurrency()));
     }
 
     public boolean addExpense(String description, double amount, String category, String accountName) {
@@ -35,7 +35,7 @@ public class Transaction {
             if (!success) return false; // not enough balance
         }
 
-        records.add(new Record(description, amount, category, user.getName(), accountName, false));
+        records.add(new Record(description, amount, category, user.getName(), accountName, false, account.getCurrency()));
         return true;
     }
 
