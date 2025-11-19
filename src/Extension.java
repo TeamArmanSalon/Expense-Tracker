@@ -556,7 +556,7 @@ public class Extension {
             }
         }
 
-        transaction.addIncome(income, source,  source);
+        transaction.addIncome(income, source);
 
         System.out.println("\n[ Income added successfully to " + source + "! ]\n");
     }
@@ -681,8 +681,8 @@ public class Extension {
 
     private void addBalanceToAccount() {
         System.out.println("Available Accounts: ");
-        for (String acc : account.getAllBalances().keySet()) {
-            System.out.print(acc + " | ");
+        for(var entry : account.getAllBalances().entrySet()){
+            System.out.printf("%s: %c%.2f | ", entry.getKey(), account.getCurrency(), entry.getValue());
         }
         System.out.println();
 
@@ -693,14 +693,14 @@ public class Extension {
             return;
         }
 
-        String source = formatThis(tempSource);
+        String accountName = formatThis(tempSource);
 
-        if (!account.accountExists(source)) {
+        if (!account.accountExists(accountName)) {
             System.out.println("[ Account doesn't exists! ]");
             return;
         }
 
-        double income;
+        double amount;
         while (true) {
             System.out.print("Enter Amount: ");
             String temp = scanner.nextLine();
@@ -711,8 +711,8 @@ public class Extension {
             }
 
             try {
-                income = Double.parseDouble(temp);
-                if (income <= 0) {
+                amount = Double.parseDouble(temp);
+                if (amount <= 0) {
                     System.out.println("[ Amount must be greater than 0! ]");
                     continue;
                 }
@@ -722,10 +722,10 @@ public class Extension {
             }
         }
 
-        account.addAmount(source, income);
-        transaction.addIncome( income, source, user.getName());
+        account.addAmount(accountName, amount);
+        transaction.addIncome(amount, accountName);
 
-        System.out.println("\n[ Balance added successfully to " + source + "! ]\n");
+        System.out.println("\n[ Balance added successfully to " + accountName + "! ]\n");
     }
 
     private void showAccount() {

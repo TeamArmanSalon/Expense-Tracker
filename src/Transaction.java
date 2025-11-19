@@ -21,12 +21,12 @@ public class Transaction {
         this.account = account;
     }
 
-    public void addIncome(double amount, String category, String accountName) {
+    public void addIncome(double amount, String accountName) {
         if (account != null) {
             account.addAmount(accountName, amount);
         }
 
-        records.add(new Record(amount, category, user.getName(), accountName, true, account.getCurrency()));
+        records.add(new Record(amount, user.getName(), accountName, true, account.getCurrency()));
     }
 
     public boolean addExpense(String description, double amount, String category, String accountName) {

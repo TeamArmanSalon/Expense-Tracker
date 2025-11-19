@@ -7,6 +7,7 @@ public class Record{
     public boolean isIncome;
     public char currency;
 
+    //for expense
     public Record(String description, double amount, String category,
                   String userName, String accountName, boolean isIncome, char currency) {
         this.description = description;
@@ -18,19 +19,13 @@ public class Record{
         this.currency = currency;
     }
 
-    public Record( double amount, String category,
-                   String userName, String accountName, boolean isIncome, char currency) {
+    //for Income
+    public Record( double amount, String userName, String accountName, boolean isIncome, char currency) {
         this.amount = amount;
-        this.category = category;
         this.userName = userName;
         this.accountName = accountName;
         this.isIncome = isIncome;
         this.currency = currency;
-    }
-
-    public Record(String description, double amount, String category,
-                  String userName, boolean isIncome, char currency) {
-        this(description, amount, category, userName, "Unknown", isIncome, currency);
     }
 
     @Override
@@ -39,13 +34,14 @@ public class Record{
         if(description == null){
             description = "No Description";
         }
-        return String.format("%s | %c%.2f | %s | %s | %s | %s",
-                description,
-                currency,
-                amount,
-                category,
-                accountName,
-                userName,
-                type);
+
+        if(type.equals("Income")){
+            return String.format("%s | %c%.2f | %s | %s | %s",
+                    description, currency, amount, accountName, userName, type);
+        }
+        else{
+            return String.format("%s | %c%.2f | %s | %s | %s | %s",
+                    description, currency, amount, category, accountName, userName, type);
+        }
     }
 }
