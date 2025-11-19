@@ -41,21 +41,21 @@ public class Transaction {
 
     public void showRecords() {
         System.out.println("\n--- All Transactions ---");
-        System.out.printf("%-15s | %-10s | %-12s | %-10s | %-10s | %-8s%n",
+        System.out.printf("%-20s | %-10s | %-12s | %-10s | %-10s | %-8s%n",
                 "Description", "Amount", "Category", "Account", "User", "Type");
         System.out.println("----------------------------------------------------------------------------------------------");
         List<String> tempDesc = null;
         for (Record r : records) {
             String type = r.isIncome ? "Income" : "Expense";
             String newDesc = "";
-            boolean isExpenseDesc_IsGreaterThan = true; //means greater than 15 characters
+            boolean isExpenseDesc_IsGreaterThan = true; //means greater than 20 characters
 
             if(type.equals("Income")){
                 newDesc = "No Description";
                 isExpenseDesc_IsGreaterThan = false;
             }
-            else if(r.description.length() > 15){
-                tempDesc = wrapWords(r.description, 15);
+            else if(r.description.length() > 20){
+                tempDesc = wrapWords(r.description, 20);
                 newDesc = tempDesc.getFirst();
             }
             else{
@@ -63,7 +63,7 @@ public class Transaction {
                 isExpenseDesc_IsGreaterThan = false;
             }
 
-            System.out.printf("%-15s | %c%-10.2f | %-12s | %-10s | %-10s | %-8s%n",
+            System.out.printf("%-20s | %c%-10.2f | %-12s | %-10s | %-10s | %-8s%n",
                     newDesc, account.getCurrency(), r.amount, r.category, r.accountName, r.userName, type);
 
             if(isExpenseDesc_IsGreaterThan){
@@ -75,7 +75,7 @@ public class Transaction {
         System.out.println();
     }
 
-    public List<String> wrapWords(String text, int width) {
+    public static List<String> wrapWords(String text, int width) {
         List<String> lines = new ArrayList<>();
         String[] words = text.split(" ");
 
@@ -86,14 +86,15 @@ public class Transaction {
                 lines.add(current.toString());
                 current = new StringBuilder(word);
             } else {
-                if (current.isEmpty()) current.append(" ");
+                if (current.length() > 0) current.append(" ");
                 current.append(word);
             }
         }
 
-        if (current.isEmpty()) {
+        if (current.length() > 0) {
             lines.add(current.toString());
         }
+
         return lines;
     }
 }

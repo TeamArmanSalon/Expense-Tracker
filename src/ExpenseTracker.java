@@ -10,8 +10,11 @@ public class ExpenseTracker {
     DONE - Change Name of number one menu (Should be Expense & Income)
     DONE - Greater Expense and Income
     DONE - check if there's expense or income to view in analysis
-    - format description if long
+    DONE - format description if long
     - toString edit and delete records
+
+    Optional:
+    format every record details if long
 
     Features:
     - Transfer
