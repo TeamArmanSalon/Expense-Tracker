@@ -62,4 +62,10 @@ public class Account {
     public Map<String, Double> getAllBalances() {
         return accountBalances;
     }
+
+    public boolean removeAccount(String category){
+        categoriesAccount.remove(category);
+        accountBalances.remove(category);
+        return true;
+    }
 }

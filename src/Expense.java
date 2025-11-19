@@ -25,4 +25,9 @@ public class Expense {
     public void setExpenseCategories(String category){
         expenseCategories.add(category);
     }
+
+    public boolean removeExpenseCat(String category){
+        expenseCategories.remove(category);
+        return true;
+    }
 }

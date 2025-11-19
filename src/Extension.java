@@ -6,6 +6,10 @@ public class Extension {
     private final Transaction transaction = new Transaction(account);
     Expense expense = new Expense();
     private User user;
+    private List<String> expenseCategories = new ArrayList<>();
+    private List<String> incomeCategories = new ArrayList<>();
+    private Budget budget = new Budget();
+
 
     public void launch() {
         System.out.println("Welcome to Expense Tracker!");
@@ -58,9 +62,9 @@ public class Extension {
             case 1 -> addExpenseAndIncome();
             case 2 -> transaction.showRecords();
             case 3 -> viewAnalysis();
-            case 4 -> System.out.println("Budget feature coming soon...");
+            case 4 -> manageBudgets();
             case 5 -> showAccountMenu();
-            case 6 -> System.out.println("Category management coming soon...");
+            case 6 -> manageCategories();
             case 7 -> settings();
             case 0 -> {
                 System.out.println("Exiting... Goodbye!");
@@ -102,7 +106,7 @@ public class Extension {
                 case 2 -> editRecord();
                 case 3 -> deleteRecord();
                 case 4 -> changeCurrency();
-                case 5 -> showHelp();
+                case 5 -> help();
                 case 6 -> about();
                 case 0 -> System.out.println("...");
                 default -> System.out.println("[ Invalid option! Try again. ]");
@@ -362,7 +366,7 @@ public class Extension {
         }
     }
 
-    private void showHelp() {
+    private void help() {
         System.out.println("\nIf you need help or you want to report some error or bug,\n" +
                 "contact us via github.");
         System.out.println("Github: https://github.com/TeamArmanSalon\n");
@@ -623,8 +627,113 @@ public class Extension {
         System.out.println("------------------------\n");
     }
 
-    //Budget method here!
+    public void manageBudgets() {
+        int choice = -1;
 
+        do {
+            System.out.println("\n- Manage Budgets -");
+            System.out.println("1. View Budgets");
+            System.out.println("2. Set / Update Budget");
+            System.out.println("3. Remove Budget");
+            System.out.println("0. Back");
+            System.out.print("Select an option: ");
+            String temp = scanner.nextLine();
+
+            if(temp.isEmpty()){
+                System.out.println("[ Must not be empty ]");
+                return;
+            }
+
+
+            try{
+                choice = Integer.parseInt(temp);
+            }catch (NumberFormatException e){
+                System.out.println("[ Please enter valid option! ]");
+                continue;
+            }
+
+            switch (choice) {
+                case 1 -> viewBudgets();
+                case 2 -> setOrUpdateBudget();
+                case 3 -> removeBudget();
+                case 0 -> System.out.println("...");
+                default -> System.out.println("\n[Invalid choice.\n");
+            }
+
+        } while (choice != 0);
+    }
+
+    private void viewBudgets() {
+        if (budget.getMapBudgets().isEmpty()) {
+            System.out.println("\n[ No budgets set. ]");
+            System.out.println("Tip: Set Budget");
+            return;
+        }
+
+        System.out.println("\n--- Current Budgets ---");
+
+        for (Map.Entry<String, Double> entry : budget.getMapBudgets().entrySet()) {
+            System.out.printf("%-15s : %c%.2f%n",entry.getKey(), account.getCurrency(), entry.getValue());
+        }
+    }
+
+    private void setOrUpdateBudget() {
+        System.out.println("Available Budget categories: ");
+        for(String budget : budget.getBudgetCategories()){
+            System.out.print(budget + " | ");
+        }
+        System.out.println();
+        System.out.print("Enter Category: ");
+        String tempCat = scanner.nextLine().trim();
+
+        String category = formatThis(tempCat);
+
+        if (category.isEmpty()) {
+            System.out.println("[ Category cannot be empty. ]");
+            return;
+        }
+
+        double amount;
+        while(true){
+            System.out.print("Enter Budget Amount: ");
+            String temp = scanner.nextLine();
+
+            try{
+                amount = Double.parseDouble(temp);
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println("[ Please enter valid amount ]");
+            }
+        }
+
+        if(!budget.getBudgetCategories().contains(category)){
+            budget.addCategory(category);
+        }
+
+        budget.setBudget(category, amount);
+
+        System.out.printf("\nBudget for \"%s\" set to %c%.2f...\n", category, account.getCurrency(), amount);
+    }
+
+    private void removeBudget() {
+        System.out.println("Select budget categories you want to remove: ");
+        for(String budget : budget.getBudgetCategories()){
+            System.out.print(budget + " | ");
+        }
+        System.out.println();
+
+        System.out.print("Enter category to remove budget: ");
+        String tempCat = scanner.nextLine().trim();
+
+        String category = formatThis(tempCat);
+
+        if (budget.getBudgetCategories().contains(category)) {
+            budget.removeCategory(category);
+            System.out.println("\nBudget removed for category: " + category);
+        } else {
+            System.out.println("No budget found for that category.");
+        }
+    }
 
     private void showAccountMenu() {
         int choice = -1;
@@ -747,7 +856,157 @@ public class Extension {
         System.out.println("----------------------\n");
     }
 
-    //  Manage Categories Here
+    public void manageCategories() {
+        int choice = -1;
+        do {
+            System.out.println("\n- Manage Categories -");
+            System.out.println("1. View Categories");
+            System.out.println("2. Add Category");
+            System.out.println("3. Remove Category");
+            System.out.println("0. Back");
+            System.out.print("Choose option: ");
+
+            String temp = scanner.nextLine();
+
+            if (temp.isEmpty()) {
+                System.out.println("[ Must not be empty! ]");
+                continue;
+            }
+
+            try {
+                choice = Integer.parseInt(temp);
+            } catch (NumberFormatException e) {
+                System.out.println("[ Invalid input! Please enter a valid number. ]");
+                continue;
+            }
+
+            switch (choice) {
+                case 1 -> viewCategories();
+                case 2 -> addCategory();
+                case 3 -> removeCategory();
+                case 0 -> System.out.println("...");
+                default -> System.out.println("Invalid choice.");
+            }
+
+        } while (choice != 0);
+    }
+
+    private void viewCategories() {
+        System.out.println("\n--- Expense Categories ---");
+        for (String cat : expense.getExpenseCategories()) {
+            System.out.println("- " + cat);
+        }
+
+        System.out.println("\n--- Income Categories ---");
+        for (String cat : account.getCategoriesAccount()) {
+            System.out.println("- " + cat);
+        }
+
+        System.out.println("\n--- Budget Categories ---");
+        for (String cat : budget.getBudgetCategories()) {
+            System.out.println("- " + cat);
+        }
+    }
+
+
+    private void addCategory() {
+        System.out.print("Is this for Income, Expense, or Budget? (I/E/B): ");
+        char type = scanner.nextLine().trim().toUpperCase().charAt(0);
+
+        if(type != 'I' && type != 'E' && type != 'B'){
+            System.out.println("[ Please enter \"I\" for Income, \"E\" Expense, \"B\" Budget. ]");
+            return;
+        }
+
+        System.out.print("Enter new category name: ");
+        String category = scanner.nextLine().trim();
+
+        if (category.isEmpty()) {
+            System.out.println("[ Category cannot be empty. ]");
+            return;
+        }
+
+        if (type == 'I') {
+            if (!account.getCategoriesAccount().contains(category)) {
+                account.addNewAccount(category);
+                System.out.println("Income category added...");
+            }
+            else System.out.println("Category already exists...");
+        }
+        else if (type == 'E') {
+            if (!expense.getExpenseCategories().contains(category)) {
+                expense.setExpenseCategories(category);
+                System.out.println("Expense category added...");
+            }
+            else System.out.println("Category already exists...");
+        }
+        else if (type == 'B') {
+            if (!budget.getBudgetCategories().contains(category)) {
+                budget.addCategory(category);
+                System.out.println("Budget category added...");
+            }
+            else System.out.println("Category already exists...");
+        }
+        else{
+            System.out.println("[ Invalid type. ]");
+        }
+    }
+
+    private void removeCategory() {
+        System.out.print("Remove from Income, Expense, or Budget? (I/E/B): ");
+        char type = scanner.nextLine().trim().toUpperCase().charAt(0);
+
+        if(type != 'I' && type != 'E' && type != 'B'){
+            System.out.println("[ Please enter \"I\" for Income, \"E\" Expense, \"B\" Budget. ]");
+            return;
+        }
+
+        if (type == 'I') {
+            System.out.println("\n--- Income Categories ---");
+            for (String cat : account.getCategoriesAccount()) {
+                System.out.println("- " + cat);
+            }
+        }
+        else if (type == 'E') {
+            System.out.println("\n--- Expense Categories ---");
+            for (String cat : expense.getExpenseCategories()) {
+                System.out.println("- " + cat);
+            }
+        }
+        else if (type == 'B') {
+            System.out.println("\n--- Budget Categories ---");
+            for (String cat : budget.getBudgetCategories()) {
+                System.out.println("- " + cat);
+            }
+        }
+
+        System.out.print("Enter category to remove: ");
+        String category = scanner.nextLine().trim();
+
+        if (type == 'I') {
+            if (account.removeAccount(category)) {
+                System.out.println("Income category removed...");
+            }
+            else System.out.println("Category not found...");
+        }
+        else if (type == 'E') {
+            if (expense.removeExpenseCat(category)) {
+                System.out.println("Expense category removed...");
+            }
+            else System.out.println("Category not found...");
+        }
+        else if (type == 'B') {
+            if (budget.getBudgetCategories().contains(category)) {
+                budget.removeCategory(category);
+                budget.getMapBudgets().remove(category); // remove assigned budget too
+                System.out.println("Budget category removed...");
+            }
+            else System.out.println("Category not found...");
+        }
+        else {
+            System.out.println("[ Invalid type. ]");
+        }
+    }
 
 
     public void registerUser() {

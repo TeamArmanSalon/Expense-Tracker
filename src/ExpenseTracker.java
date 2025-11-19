@@ -12,6 +12,8 @@ public class ExpenseTracker {
     DONE - check if there's expense or income to view in analysis
     DONE - format description if long
     DONE - toString edit and delete records
+    - manage cat char handle input
+    - update analysis for budget
 
     Optional:
     format every record details if long
