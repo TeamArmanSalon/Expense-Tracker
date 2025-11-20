@@ -376,7 +376,14 @@ public class Extension {
         System.out.println("""
                 \nExpense Tracker v1.0
                 Project in OOP (Object Oriented Programming)
+                
+                The Expense Tracker is a simple Java console-based application 
+                that helps users manage their personal finances.
+                It allows users to add expenses and income, set budgets, view financial summaries,
+                and generate reports—all while applying key Object-Oriented Programming principles
+                
                 Created: November 2025
+                
                 [Member]
                     * Lucmayan, Joshan
                     * Cubero, Marc lean N.
@@ -387,7 +394,6 @@ public class Extension {
                     * Dela Cruz, Tricia C
                 """);
     }
-
 
     private void addExpenseAndIncome() {
         int choice = -1;
@@ -894,24 +900,35 @@ public class Extension {
     private void viewCategories() {
         System.out.println("\n--- Expense Categories ---");
         for (String cat : expense.getExpenseCategories()) {
-            System.out.println("- " + cat);
+            System.out.println("* " + cat);
         }
 
         System.out.println("\n--- Income Categories ---");
         for (String cat : account.getCategoriesAccount()) {
-            System.out.println("- " + cat);
+            System.out.println("* " + cat);
         }
 
         System.out.println("\n--- Budget Categories ---");
         for (String cat : budget.getBudgetCategories()) {
-            System.out.println("- " + cat);
+            System.out.println("* " + cat);
         }
     }
 
 
     private void addCategory() {
         System.out.print("Is this for Income, Expense, or Budget? (I/E/B): ");
-        char type = scanner.nextLine().trim().toUpperCase().charAt(0);
+        String tempType = scanner.nextLine().trim();
+
+        if(tempType.isEmpty()){
+            System.out.println("[ Must not be empty ]");
+            return;
+        }
+        else if(tempType.length() > 1){
+            System.out.println("[ Please enter \"I\" for Income, \"E\" Expense, \"B\" Budget. ]");
+            return;
+        }
+
+        char type = tempType.toUpperCase().charAt(0);
 
         if(type != 'I' && type != 'E' && type != 'B'){
             System.out.println("[ Please enter \"I\" for Income, \"E\" Expense, \"B\" Budget. ]");
@@ -954,7 +971,18 @@ public class Extension {
 
     private void removeCategory() {
         System.out.print("Remove from Income, Expense, or Budget? (I/E/B): ");
-        char type = scanner.nextLine().trim().toUpperCase().charAt(0);
+        String tempType = scanner.nextLine().trim();
+
+        if(tempType.isEmpty()){
+            System.out.println("[ Must not be empty ]");
+            return;
+        }
+        else if(tempType.length() > 1){
+            System.out.println("[ Please enter \"I\" for Income, \"E\" Expense, \"B\" Budget. ]");
+            return;
+        }
+
+        char type = tempType.toUpperCase().charAt(0);
 
         if(type != 'I' && type != 'E' && type != 'B'){
             System.out.println("[ Please enter \"I\" for Income, \"E\" Expense, \"B\" Budget. ]");
@@ -964,19 +992,19 @@ public class Extension {
         if (type == 'I') {
             System.out.println("\n--- Income Categories ---");
             for (String cat : account.getCategoriesAccount()) {
-                System.out.println("- " + cat);
+                System.out.println("* " + cat);
             }
         }
         else if (type == 'E') {
             System.out.println("\n--- Expense Categories ---");
             for (String cat : expense.getExpenseCategories()) {
-                System.out.println("- " + cat);
+                System.out.println("* " + cat);
             }
         }
         else if (type == 'B') {
             System.out.println("\n--- Budget Categories ---");
             for (String cat : budget.getBudgetCategories()) {
-                System.out.println("- " + cat);
+                System.out.println("* " + cat);
             }
         }
 
