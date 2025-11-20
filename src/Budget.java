@@ -47,16 +47,4 @@ public class Budget {
         }
     }
 
-    public double getBudget(String category) {
-        return mapBudgets.getOrDefault(category, 0.0);
-    }
-
-    public void deleteBudget(String category) {
-        mapBudgets.remove(category);
-    }
-
-    public boolean hasBudget(String category) {
-        return mapBudgets.containsKey(category);
-    }
-
 }

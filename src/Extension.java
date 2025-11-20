@@ -70,7 +70,7 @@ public class Extension {
                 System.out.println("Exiting... Goodbye!");
                 System.exit(0);
             }
-            default -> System.out.println("[ Invalid option. Try again. ]");
+            default -> System.out.println("\n[ Invalid option. Try again. ]\n");
         }
     }
 
@@ -78,7 +78,7 @@ public class Extension {
         int choice = -1;
 
         while (choice != 0) {
-            System.out.println("\n- Settings -");
+            System.out.println("- Settings -");
             System.out.println("1. Profiles");
             System.out.println("2. Edit Records");
             System.out.println("3. Delete Records");
@@ -90,14 +90,14 @@ public class Extension {
             String temp = scanner.nextLine();
 
             if (temp.isEmpty()) {
-                System.out.println("[ Must not be empty! ]");
+                System.out.println("\n[ Must not be empty! ]\n");
                 continue;
             }
 
             try {
                 choice = Integer.parseInt(temp);
             } catch (NumberFormatException e) {
-                System.out.println("[ Invalid input! Enter a number. ]");
+                System.out.println("\n[ Invalid input! Enter a number. ]\n");
                 continue;
             }
 
@@ -109,7 +109,7 @@ public class Extension {
                 case 5 -> help();
                 case 6 -> about();
                 case 0 -> System.out.println("...");
-                default -> System.out.println("[ Invalid option! Try again. ]");
+                default -> System.out.println("\n[ Invalid option! Try again. ]\n");
             }
         }
     }
@@ -127,25 +127,25 @@ public class Extension {
             String temp = scanner.nextLine();
 
             if (temp.isEmpty()) {
-                System.out.println("[ Must not be empty! ]");
+                System.out.println("\n[ Must not be empty! ]\n");
                 return;
             }
 
             try {
                 choice = Integer.parseInt(temp);
             } catch (NumberFormatException e) {
-                System.out.println("[ Invalid input! ]");
+                System.out.println("\n[ Invalid input! ]\n");
                 return;
             }
 
             switch (choice) {
-                case 1 -> System.out.printf("\nYour current profile is [ %s ]\n\n", user.getName());
+                case 1 -> System.out.printf("\nYour current profile is [ %s ]\n", user.getName());
                 case 2 -> {
                     System.out.print("Enter new name: ");
                     String newName = scanner.nextLine();
 
                     while (!newName.matches("[a-zA-Z ,.]+")) {
-                        System.out.println("[ Name must contain only letters, spaces, commas, or dots. ]");
+                        System.out.println("\n[ Name must contain only letters, spaces, commas, or dots. ]\n");
                         System.out.print("Enter Name: ");
                         newName = scanner.nextLine();
                     }
@@ -161,9 +161,9 @@ public class Extension {
                         System.out.print("Enter new password: ");
                         newPassword = scanner.nextLine();
                         if (newPassword.isEmpty()) {
-                            System.out.println("[ Password cannot be empty. ]");
+                            System.out.println("\n[ Password cannot be empty. ]\n");
                         } else if (!newPassword.matches(passwordRegex)) {
-                            System.out.println("[ Password must be at least 12 chars with uppercase, lowercase, number, and symbol. ]");
+                            System.out.println("\n[ Password must be at least 12 chars with uppercase, lowercase, number, and symbol. ]\n");
                         } else {
                             break;
                         }
@@ -173,7 +173,7 @@ public class Extension {
                     System.out.println("Password updated...");
                 }
                 case 0 -> System.out.println("...");
-                default -> System.out.println("[ Invalid option! ]");
+                default -> System.out.println("\n[ Invalid option! ]\n");
             }
         }
     }
@@ -182,7 +182,7 @@ public class Extension {
         List<Record> records = transaction.getRecords();
 
         if (records.isEmpty()) {
-            System.out.println("[ No records found! ]");
+            System.out.println("\n[ No records found! ]\n");
             return;
         }
 
@@ -194,7 +194,7 @@ public class Extension {
         String temp = scanner.nextLine();
 
         if (temp.isEmpty()) {
-            System.out.println("[ Must not be empty! ]");
+            System.out.println("\n[ Must not be empty! ]\n");
             return;
         }
 
@@ -202,12 +202,12 @@ public class Extension {
         try {
             index = Integer.parseInt(temp);
         } catch (NumberFormatException e) {
-            System.out.println("[ Invalid number! ]");
+            System.out.println("\n[ Invalid number! ]\n");
             return;
         }
 
         if (index < 0 || index >= records.size()) {
-            System.out.println("[ Invalid record index! ]");
+            System.out.println("\n[ Invalid record index! ]\n");
             return;
         }
 
@@ -218,7 +218,7 @@ public class Extension {
         String newDesc = scanner.nextLine().trim();
 
         if(newDesc.isEmpty()){
-            System.out.println("[ Must not be empty! ]");
+            System.out.println("\n[ Must not be empty! ]\n");
             return;
         }
 
@@ -226,14 +226,14 @@ public class Extension {
             r.description = newDesc;
         }
         else{
-            System.out.println("[ We keep the old description. ]");
+            System.out.println("\n[ We keep the old description. ]\n");
         }
 
         System.out.print("Enter new amount (press \"s\" to keep): ");
         String amt = scanner.nextLine().trim();
 
         if(amt.isEmpty()){
-            System.out.println("[ Must not be empty! ]");
+            System.out.println("\n[ Must not be empty! ]\n");
             return;
         }
 
@@ -242,11 +242,11 @@ public class Extension {
                 double newAmount = Double.parseDouble(amt);
                 r.amount = newAmount;
             } catch (NumberFormatException e) {
-                System.out.println("[ Invalid amount! ]");
+                System.out.println("\n[ Invalid amount! ]\n");
             }
         }
         else{
-            System.out.println("[ We keep the old amount. ]");
+            System.out.println("\n[ We keep the old amount. ]\n");
         }
 
         System.out.println("Record updated!...");
@@ -264,14 +264,14 @@ public class Extension {
             String temp = scanner.nextLine();
 
             if (temp.isEmpty()) {
-                System.out.println("[ Must not be empty! ]");
+                System.out.println("\n[ Must not be empty! ]\n");
                 return;
             }
 
             try {
                 choice = Integer.parseInt(temp);
             } catch (NumberFormatException e) {
-                System.out.println("[ Invalid input! ]");
+                System.out.println("\n[ Invalid input! ]\n");
                 return;
             }
 
@@ -279,7 +279,7 @@ public class Extension {
                 case 1 -> {
                     List<Record> records = transaction.getRecords();
                     if (records.isEmpty()) {
-                        System.out.println("[ No records to delete! ]");
+                        System.out.println("\n[ No records to delete! ]\n");
                         return;
                     }
 
@@ -291,7 +291,7 @@ public class Extension {
                     String idx = scanner.nextLine();
 
                     if (idx.isEmpty()) {
-                        System.out.println("[ Must not be empty! ]");
+                        System.out.println("\n[ Must not be empty! ]\n");
                         return;
                     }
 
@@ -303,10 +303,10 @@ public class Extension {
                             System.out.println("Record deleted successfully!...");
                         }
                         else {
-                            System.out.println("[ Invalid record index! ]");
+                            System.out.println("\n[ Invalid record index! ]\n");
                         }
                     } catch (NumberFormatException e) {
-                        System.out.println("[ Invalid Input! Please enter a number. ]");
+                        System.out.println("\n[ Invalid Input! Please enter a number. ]\n");
                     }
                 }
 
@@ -316,7 +316,7 @@ public class Extension {
                 }
 
                 case 0 -> System.out.println("...");
-                default -> System.out.println("[ Invalid option! ]");
+                default -> System.out.println("\n[ Invalid option! ]\n");
             }
         }
     }
@@ -339,11 +339,11 @@ public class Extension {
         String temp = scanner.nextLine().trim();
 
         if (temp.isEmpty()) {
-            System.out.println("\n[ Must not be empty! ]");
+            System.out.println("\n[ Must not be empty! ]\n");
             return;
         }
         else if(temp.length() != 1){
-            System.out.println("\n[ Enter only one symbol ]");
+            System.out.println("\n[ Enter only one symbol ]\n");
             return;
         }
 
@@ -358,7 +358,7 @@ public class Extension {
         }
 
         if(notContains){
-            System.out.println("\n[ Enter currency that available in our system. ]");
+            System.out.println("\n[ Enter currency that available in our system. ]\n");
         }
         else{
             account.setCurrency(symbol);
@@ -398,7 +398,7 @@ public class Extension {
     private void addExpenseAndIncome() {
         int choice = -1;
         while (choice != 0) {
-            System.out.println("\n- Expense/Income -");
+            System.out.println("- Expense/Income -");
             System.out.println("1. Add Expense");
             System.out.println("2. Add Income");
             System.out.println("0. Back");
@@ -406,14 +406,14 @@ public class Extension {
             String temp = scanner.nextLine();
 
             if (temp.isEmpty()) {
-                System.out.println("[ Must not be empty! ]");
+                System.out.println("\n[ Must not be empty! ]\n");
                 continue;
             }
 
             try {
                 choice = Integer.parseInt(temp);
             } catch (NumberFormatException e) {
-                System.out.println("[ Invalid input. Please try again! ]");
+                System.out.println("\n[ Invalid input. Please try again! ]\n");
                 continue;
             }
 
@@ -421,7 +421,7 @@ public class Extension {
                 case 1 -> addExpense();
                 case 2 -> addIncome();
                 case 0 -> System.out.println("...\n");
-                default -> System.out.println("[ Invalid option! Try again. ]");
+                default -> System.out.println("\n[ Invalid option! Try again. ]\n");
             }
         }
     }
@@ -433,7 +433,7 @@ public class Extension {
 
         if(zeroBalance){
             System.out.println("\nYou have zero balance in your accounts!");
-            System.out.println("Tip: Go to \"Add Income\" to set your balance.");
+            System.out.println("Tip: Go to \"Add Income\" to set your balance.\n");
             return;
         }
 
@@ -443,7 +443,9 @@ public class Extension {
 
         System.out.println("Available Accounts: ");
         for(var entry : account.getAllBalances().entrySet()){
-            System.out.printf("%s: %c%.2f | ", entry.getKey(), account.getCurrency(), entry.getValue());
+            if(entry.getValue() != 0){
+                System.out.printf("%s: %c%.2f | ", entry.getKey(), account.getCurrency(), entry.getValue());
+            }
         }
         System.out.println();
 
@@ -451,28 +453,28 @@ public class Extension {
         String tempAccountName = scanner.nextLine().trim();
 
         if(tempAccountName.isEmpty()) {
-            System.out.println("[ Account name is empty! ]");
+            System.out.println("\n[ Account name is empty! ]\n");
             return;
         }
 
         String accountName = formatThis(tempAccountName);
 
         if (!account.getCategoriesAccount().contains(accountName)) {
-            System.out.println("[ Account does not exist! Expense cancelled. ]");
+            System.out.println("\n[ Account does not exist! Expense cancelled. ]\n");
             return;
         }
 
-        System.out.println("Available Expense Categories (Can be Added):");
+        System.out.println("Available Expense Categories:");
         for (String cat : expense.getExpenseCategories()) {
             System.out.print(cat + " | ");
         }
         System.out.println();
 
-        System.out.print("Enter Category: ");
+        System.out.print("Enter (or Add) Category: ");
         String tempCategory = scanner.nextLine();
 
         if (tempCategory.isEmpty()) {
-            System.out.println("Please Enter Category!");
+            System.out.println("\n[ Please Enter Category! ]\n");
             return;
         }
 
@@ -480,7 +482,9 @@ public class Extension {
 
         System.out.print("Enter Description: ");
         String desc = scanner.nextLine();
-        if (desc.isEmpty()) desc = "No Description";
+        if (desc.isEmpty()){
+            System.out.println("\n[ Must not be empty ]\n");
+        }
 
         double amount;
         while (true) {
@@ -488,19 +492,19 @@ public class Extension {
             String temp = scanner.nextLine();
 
             if (temp.isEmpty()) {
-                System.out.println("[ Must not be empty! ]");
+                System.out.println("\n[ Must not be empty! ]\n");
                 continue;
             }
 
             try {
                 amount = Double.parseDouble(temp);
                 if (amount <= 0) {
-                    System.out.println("[ Amount must be greater than 0! ]");
+                    System.out.println("\n[ Amount must be greater than 0! ]\n");
                     continue;
                 }
                 break;
             } catch (NumberFormatException e) {
-                System.out.println("[ Invalid input! Enter a number. ]");
+                System.out.println("\n[ Invalid input! Enter a number. ]\n");
             }
         }
 
@@ -511,34 +515,35 @@ public class Extension {
         boolean success = transaction.addExpense(desc, amount, category, accountName);
 
         if (!success) {
-            System.out.println("\n[ Not enough balance! Expense Cancelled... ]");
+            System.out.println("\n[ Not enough balance! Expense Cancelled... ]\n");
             return;
         }
 
-        System.out.println("\n[ Expense added successfully! ]\n");
+        System.out.println("\nExpense added successfully!...\n");
     }
 
 
     private void addIncome() {
-        System.out.println("Existing Accounts (Can be added): ");
+        System.out.println("Existing Accounts: ");
         for(var entry : account.getAllBalances().entrySet()){
             System.out.printf("%s: %c%.2f | ", entry.getKey(), account.getCurrency(), entry.getValue());
         }
         System.out.println();
 
-        System.out.print("Select an Account: ");
+        System.out.print("Select (or Add) an Account: ");
         String tempSource = scanner.nextLine().trim();
+
+        if (tempSource.isEmpty()){
+            System.out.println("\n[ Please Enter Source of Income! ]\n");
+            return;
+        }
+
         if(tempSource.matches("[0-9]")){
-            System.out.println("Incorrect source! Please enter valid source!. ]");
+            System.out.println("\n[ Incorrect source! Please enter valid source!. ]\n");
             return;
         }
 
         String source = formatThis(tempSource);
-
-        if (source.isEmpty()){
-            System.out.println("Please Enter Source of Income!");
-            return;
-        }
 
         if(!account.getCategoriesAccount().contains(source)){
             account.addNewAccount(source);
@@ -550,19 +555,19 @@ public class Extension {
             String temp = scanner.nextLine();
 
             if (temp.isEmpty()) {
-                System.out.println("[ Must not be empty! ]");
+                System.out.println("\n[ Must not be empty! ]\n");
                 continue;
             }
 
             try {
                 income = Double.parseDouble(temp);
                 if (income <= 0) {
-                    System.out.println("[ Amount must be greater than 0! ]");
+                    System.out.println("\n[ Amount must be greater than 0! ]\n");
                     continue;
                 }
                 break;
             } catch (NumberFormatException e) {
-                System.out.println("[ Invalid input! Please enter a valid number. ]");
+                System.out.println("\n[ Invalid input! Please enter a valid number. ]\n");
             }
         }
 
@@ -597,9 +602,9 @@ public class Extension {
         double balance = totalIncome - totalExpense;
 
         System.out.println("\n--- Analysis Report ---");
-        System.out.printf("Total Income   : %.2f\n", totalIncome);
-        System.out.printf("Total Expense  : %.2f\n", totalExpense);
-        System.out.printf("Total Balance  : %.2f\n", balance);
+        System.out.printf("Total Income   : %c%.2f\n", account.getCurrency(), totalIncome);
+        System.out.printf("Total Expense  : %c%.2f\n", account.getCurrency(), totalExpense);
+        System.out.printf("Total Balance  : %c%.2f\n", account.getCurrency(), balance);
         System.out.println("------------------------\n");
 
         System.out.println("\n--- Income Overview  ---");
@@ -610,7 +615,7 @@ public class Extension {
         boolean haveNoExpense = true;
         for (Record r : records) {
             if (r.isIncome && r.amount != 0.00) {
-                System.out.printf("%-15s : %.2f%n", r.category, r.amount);
+                System.out.printf("%-15s : %c%.2f%n", r.accountName, account.getCurrency(), r.amount);
                 haveNoIncome = false;
             }
         }
@@ -622,7 +627,7 @@ public class Extension {
         System.out.println("\n--- Expense Overview ---");
         for (Record r : records) {
             if (!r.isIncome && r.amount != 0.00) {
-                System.out.printf("%-15s : %.2f%n", r.category, r.amount);
+                System.out.printf("%-15s : %c%.2f%n", r.category, account.getCurrency(), r.amount);
                 haveNoExpense = false;
             }
         }
@@ -630,14 +635,30 @@ public class Extension {
         if(haveNoExpense){
             System.out.println("[ You don't have expenses yet. ]");
         }
-        System.out.println("------------------------\n");
+
+        System.out.println("\n--- Budget Overview ---");
+
+        if(budget.getMapBudgets().isEmpty()){
+            System.out.println("[ You don't have budget yet. ]\n");
+            return;
+        }
+
+        for(var bud : budget.getMapBudgets().entrySet()){
+            if(bud.getValue() != 0.00){
+                System.out.printf("%-15s : %c%.2f%n", bud.getKey(), account.getCurrency(), bud.getValue());
+            }
+        }
+        System.out.println();
+
+
+        System.out.println("\n------------------------\n");
     }
 
     public void manageBudgets() {
         int choice = -1;
 
         do {
-            System.out.println("\n- Manage Budgets -");
+            System.out.println("- Manage Budgets -");
             System.out.println("1. View Budgets");
             System.out.println("2. Set / Update Budget");
             System.out.println("3. Remove Budget");
@@ -646,15 +667,15 @@ public class Extension {
             String temp = scanner.nextLine();
 
             if(temp.isEmpty()){
-                System.out.println("[ Must not be empty ]");
-                return;
+                System.out.println("\n[ Must not be empty ]\n");
+                continue;
             }
 
 
             try{
                 choice = Integer.parseInt(temp);
             }catch (NumberFormatException e){
-                System.out.println("[ Please enter valid option! ]");
+                System.out.println("\n[ Please enter valid option! ]\n");
                 continue;
             }
 
@@ -663,7 +684,7 @@ public class Extension {
                 case 2 -> setOrUpdateBudget();
                 case 3 -> removeBudget();
                 case 0 -> System.out.println("...");
-                default -> System.out.println("\n[Invalid choice.\n");
+                default -> System.out.println("\n[ Invalid choice. ]\n");
             }
 
         } while (choice != 0);
@@ -672,16 +693,41 @@ public class Extension {
     private void viewBudgets() {
         if (budget.getMapBudgets().isEmpty()) {
             System.out.println("\n[ No budgets set. ]");
-            System.out.println("Tip: Set Budget");
+            System.out.println("Tip: Set Budget\n");
             return;
         }
 
         System.out.println("\n--- Current Budgets ---");
 
         for (Map.Entry<String, Double> entry : budget.getMapBudgets().entrySet()) {
-            System.out.printf("%-15s : %c%.2f%n",entry.getKey(), account.getCurrency(), entry.getValue());
+            String category = entry.getKey();
+            double budgetLimit = entry.getValue();
+
+            double spent = 0;
+            for (Record r : transaction.getRecords()) {
+                if (!r.isIncome && r.category.equalsIgnoreCase(category)) {
+                    spent += r.amount;
+                }
+            }
+
+            double remaining = budgetLimit - spent;
+
+            String status = "";
+            if (remaining < 0) {
+                status = "Over spent";
+            }
+            else if (spent < remaining && spent != 0){
+                status = "Low spent";
+            }
+            else if(spent == 0){
+                status = "No Status";
+            }
+
+            System.out.printf("%-15s : %c%.2f | Spent: %c%.2f | Left: %c%.2f | Status: %s%n", category,  account.getCurrency(), budgetLimit,
+                    account.getCurrency(), spent, account.getCurrency(), remaining, status);
         }
     }
+
 
     private void setOrUpdateBudget() {
         System.out.println("Available Budget categories: ");
@@ -689,13 +735,13 @@ public class Extension {
             System.out.print(budget + " | ");
         }
         System.out.println();
-        System.out.print("Enter Category: ");
+        System.out.print("Enter (or Add) Category: ");
         String tempCat = scanner.nextLine().trim();
 
         String category = formatThis(tempCat);
 
         if (category.isEmpty()) {
-            System.out.println("[ Category cannot be empty. ]");
+            System.out.println("\n[ Category cannot be empty. ]\n");
             return;
         }
 
@@ -708,7 +754,7 @@ public class Extension {
                 amount = Double.parseDouble(temp);
                 break;
             } catch (NumberFormatException e) {
-                System.out.println("[ Please enter valid amount ]");
+                System.out.println("\n[ Please enter valid amount ]\n");
             }
         }
 
@@ -735,34 +781,35 @@ public class Extension {
 
         if (budget.getBudgetCategories().contains(category)) {
             budget.removeCategory(category);
-            System.out.println("\nBudget removed for category: " + category);
+            System.out.println("\nBudget removed for category: " + category + "...");
         } else {
-            System.out.println("No budget found for that category.");
+            System.out.println("\n[ No budget found for that category. ]\n");
         }
     }
 
     private void showAccountMenu() {
         int choice = -1;
 
-        while (choice != 4) {
-            System.out.println("\n- Account -");
+        while (choice != 0) {
+            System.out.println("- Account -");
             System.out.println("1. View Accounts");
             System.out.println("2. Add New Account");
             System.out.println("3. Add Balance Account");
-            System.out.println("4. Back");
+            System.out.println("4. Delete Account");
+            System.out.println("0. Back");
             System.out.print("Choose option: ");
 
             String temp = scanner.nextLine();
 
             if (temp.isEmpty()) {
-                System.out.println("[ Must not be empty! ]");
+                System.out.println("\n[ Must not be empty! ]\n");
                 continue;
             }
 
             try {
                 choice = Integer.parseInt(temp);
             } catch (NumberFormatException e) {
-                System.out.println("[ Invalid input! Please enter a valid number. ]");
+                System.out.println("\n[ Invalid input! Please enter a valid number. ]\n");
                 continue;
             }
 
@@ -770,28 +817,82 @@ public class Extension {
                 case 1 -> showAccount();
                 case 2 -> addNewAccount();
                 case 3 -> addBalanceToAccount();
-                case 4 -> System.out.println("Returning to main menu...");
-                default -> System.out.println("[ Invalid option! Try again. ]");
+                case 4 -> deleteAccount();
+                case 0 -> System.out.println("...");
+                default -> System.out.println("\n[ Invalid option! Try again. ]\n");
             }
         }
     }
+
+    private void deleteAccount() {
+        if (account.getAllBalances().isEmpty()) {
+            System.out.println("\n[ No accounts available. ]\n");
+            return;
+        }
+
+        System.out.println("Available Accounts:");
+        for (var entry : account.getAllBalances().entrySet()) {
+            System.out.printf("%s : %c%.2f%n", entry.getKey(), account.getCurrency(), entry.getValue());
+        }
+
+        System.out.print("\nEnter account name to delete: ");
+        String name = scanner.nextLine().trim();
+
+        if (name.isEmpty()) {
+            System.out.println("\n[ Account name cannot be empty! ]\n");
+            return;
+        }
+
+        String accName = formatThis(name);
+
+        if (!account.accountExists(accName)) {
+            System.out.println("\n[ Account does not exist! ]\n");
+            return;
+        }
+
+        double balance = account.getBalance(accName);
+
+        if (balance > 0) {
+            System.out.printf(
+                    "\n[ WARNING: '%s' still has %c%.2f balance. ]\n",
+                    accName, account.getCurrency(), balance
+            );
+            System.out.print("Are you sure you want to delete it? (Y/N): ");
+            String confirm = scanner.nextLine().trim().toUpperCase();
+
+            if (!confirm.equals("Y")) {
+                System.out.println("\n[ Delete cancelled. ]\n");
+                return;
+            }
+        }
+
+        boolean removed = account.removeAccount(accName);
+
+        if(removed){
+            System.out.println("\nAccount '" + accName + "' deleted successfully...\n");
+        }
+        else {
+            System.out.println("\n[ Failed to delete account. ]\n");
+        }
+    }
+
 
     private void addNewAccount() {
         System.out.print("Enter New Account: ");
         String newAccount = scanner.nextLine().trim();
 
         if (newAccount.isEmpty()) {
-            System.out.println("[ Account name cannot be empty! ]");
+            System.out.println("\n[ Account name cannot be empty! ]\n");
             return;
         }
 
         if (account.accountExists(newAccount)) {
-            System.out.println("[ Account already exists! ]");
+            System.out.println("\n[ Account already exists! ]\n");
             return;
         }
 
         account.addNewAccount(newAccount);
-        System.out.println("[ New account '" + newAccount + "' added with balance 0.0 ]");
+        System.out.println("\n[ New account '" + newAccount + "' added with balance 0.0 ]\n");
     }
 
     private void addBalanceToAccount() {
@@ -804,14 +905,14 @@ public class Extension {
         System.out.print("Enter Account: ");
         String tempSource = scanner.nextLine();
         if (tempSource.isEmpty()){
-            System.out.println("[ Account name cannot be empty! ]");
+            System.out.println("\n[ Account name cannot be empty! ]\n");
             return;
         }
 
         String accountName = formatThis(tempSource);
 
         if (!account.accountExists(accountName)) {
-            System.out.println("[ Account doesn't exists! ]");
+            System.out.println("\n[ Account doesn't exists! ]\n");
             return;
         }
 
@@ -821,19 +922,19 @@ public class Extension {
             String temp = scanner.nextLine();
 
             if (temp.isEmpty()) {
-                System.out.println("[ Must not be empty! ]");
+                System.out.println("\n[ Must not be empty! ]\n");
                 continue;
             }
 
             try {
                 amount = Double.parseDouble(temp);
                 if (amount <= 0) {
-                    System.out.println("[ Amount must be greater than 0! ]");
+                    System.out.println("\n[ Amount must be greater than 0! ]\n");
                     continue;
                 }
                 break;
             } catch (NumberFormatException e) {
-                System.out.println("[ Invalid input! Please enter a valid number. ]");
+                System.out.println("\n[ Invalid input! Please enter a valid number. ]\n");
             }
         }
 
@@ -844,10 +945,10 @@ public class Extension {
     }
 
     private void showAccount() {
-        System.out.println("\n--- Account Info ---");
+        System.out.println("--- Account Info ---");
 
         if (user == null) {
-            System.out.println("[ No user registered. ]");
+            System.out.println("\n[ No user registered. ]");
             return;
         }
 
@@ -865,7 +966,7 @@ public class Extension {
     public void manageCategories() {
         int choice = -1;
         do {
-            System.out.println("\n- Manage Categories -");
+            System.out.println("- Manage Categories -");
             System.out.println("1. View Categories");
             System.out.println("2. Add Category");
             System.out.println("3. Remove Category");
@@ -875,14 +976,14 @@ public class Extension {
             String temp = scanner.nextLine();
 
             if (temp.isEmpty()) {
-                System.out.println("[ Must not be empty! ]");
+                System.out.println("\n[ Must not be empty! ]\n");
                 continue;
             }
 
             try {
                 choice = Integer.parseInt(temp);
             } catch (NumberFormatException e) {
-                System.out.println("[ Invalid input! Please enter a valid number. ]");
+                System.out.println("\n[ Invalid input! Please enter a valid number. ]\n");
                 continue;
             }
 
@@ -891,7 +992,7 @@ public class Extension {
                 case 2 -> addCategory();
                 case 3 -> removeCategory();
                 case 0 -> System.out.println("...");
-                default -> System.out.println("Invalid choice.");
+                default -> System.out.println("\n[ Invalid choice. ]\n");
             }
 
         } while (choice != 0);
@@ -920,18 +1021,18 @@ public class Extension {
         String tempType = scanner.nextLine().trim();
 
         if(tempType.isEmpty()){
-            System.out.println("[ Must not be empty ]");
+            System.out.println("\n[ Must not be empty ]\n");
             return;
         }
         else if(tempType.length() > 1){
-            System.out.println("[ Please enter \"I\" for Income, \"E\" Expense, \"B\" Budget. ]");
+            System.out.println("\n[ Please enter \"I\" for Income, \"E\" Expense, \"B\" Budget. ]\n");
             return;
         }
 
         char type = tempType.toUpperCase().charAt(0);
 
         if(type != 'I' && type != 'E' && type != 'B'){
-            System.out.println("[ Please enter \"I\" for Income, \"E\" Expense, \"B\" Budget. ]");
+            System.out.println("\n[ Please enter \"I\" for Income, \"E\" Expense, \"B\" Budget. ]\n");
             return;
         }
 
@@ -939,7 +1040,7 @@ public class Extension {
         String category = scanner.nextLine().trim();
 
         if (category.isEmpty()) {
-            System.out.println("[ Category cannot be empty. ]");
+            System.out.println("\n[ Category cannot be empty. ]\n");
             return;
         }
 
@@ -948,24 +1049,24 @@ public class Extension {
                 account.addNewAccount(category);
                 System.out.println("Income category added...");
             }
-            else System.out.println("Category already exists...");
+            else System.out.println("\nCategory already exists...\n");
         }
         else if (type == 'E') {
             if (!expense.getExpenseCategories().contains(category)) {
                 expense.setExpenseCategories(category);
                 System.out.println("Expense category added...");
             }
-            else System.out.println("Category already exists...");
+            else System.out.println("\nCategory already exists...\n");
         }
         else if (type == 'B') {
             if (!budget.getBudgetCategories().contains(category)) {
                 budget.addCategory(category);
                 System.out.println("Budget category added...");
             }
-            else System.out.println("Category already exists...");
+            else System.out.println("\nCategory already exists...\n");
         }
         else{
-            System.out.println("[ Invalid type. ]");
+            System.out.println("\n[ Invalid type. ]\n");
         }
     }
 
@@ -974,18 +1075,18 @@ public class Extension {
         String tempType = scanner.nextLine().trim();
 
         if(tempType.isEmpty()){
-            System.out.println("[ Must not be empty ]");
+            System.out.println("\n[ Must not be empty ]\n");
             return;
         }
         else if(tempType.length() > 1){
-            System.out.println("[ Please enter \"I\" for Income, \"E\" Expense, \"B\" Budget. ]");
+            System.out.println("\n[ Please enter \"I\" for Income, \"E\" Expense, \"B\" Budget. ]\n");
             return;
         }
 
         char type = tempType.toUpperCase().charAt(0);
 
         if(type != 'I' && type != 'E' && type != 'B'){
-            System.out.println("[ Please enter \"I\" for Income, \"E\" Expense, \"B\" Budget. ]");
+            System.out.println("\n[ Please enter \"I\" for Income, \"E\" Expense, \"B\" Budget. ]\n");
             return;
         }
 
@@ -1015,13 +1116,13 @@ public class Extension {
             if (account.removeAccount(category)) {
                 System.out.println("Income category removed...");
             }
-            else System.out.println("Category not found...");
+            else System.out.println("\nCategory not found...\n");
         }
         else if (type == 'E') {
             if (expense.removeExpenseCat(category)) {
                 System.out.println("Expense category removed...");
             }
-            else System.out.println("Category not found...");
+            else System.out.println("\nCategory not found...\n");
         }
         else if (type == 'B') {
             if (budget.getBudgetCategories().contains(category)) {
@@ -1029,10 +1130,10 @@ public class Extension {
                 budget.getMapBudgets().remove(category); // remove assigned budget too
                 System.out.println("Budget category removed...");
             }
-            else System.out.println("Category not found...");
+            else System.out.println("\nCategory not found...\n");
         }
         else {
-            System.out.println("[ Invalid type. ]");
+            System.out.println("\n[ Invalid type. ]\n");
         }
     }
 
@@ -1042,7 +1143,7 @@ public class Extension {
         String name = scanner.nextLine();
 
         while (!name.matches("[a-zA-Z ,.]+")) {
-            System.out.println("[ Name must contain only letters, spaces, commas, or dots. ]");
+            System.out.println("\n[ Name must contain only letters, spaces, commas, or dots. ]\n");
             System.out.print("Enter Name: ");
             name = scanner.nextLine();
         }
@@ -1054,9 +1155,9 @@ public class Extension {
             System.out.print("Enter Password: ");
             password = scanner.nextLine();
             if (password.isEmpty()) {
-                System.out.println("[ Password cannot be empty. ]");
+                System.out.println("\n[ Password cannot be empty. ]\n");
             } else if (!password.matches(passwordRegex)) {
-                System.out.println("[ Password must be at least 12 chars with uppercase, lowercase, number, and symbol. ]");
+                System.out.println("\n[ Password must be at least 12 chars with uppercase, lowercase, number, and symbol. ]\n ");
             } else {
                 break;
             }

@@ -13,7 +13,7 @@ public class ExpenseTracker {
     DONE - format description if long
     DONE - toString edit and delete records
     DONE - manage cat char handle input
-    - update analysis for budget
+    DONE - update all method and class for budget
     - add new line for error message for more attention of users wrongness
 
     Optional:

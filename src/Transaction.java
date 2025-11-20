@@ -51,6 +51,7 @@ public class Transaction {
             boolean isExpenseDesc_IsGreaterThan = true; //means greater than 20 characters
 
             if(type.equals("Income")){
+                r.category = "No Category";
                 newDesc = "No Description";
                 isExpenseDesc_IsGreaterThan = false;
             }
@@ -63,7 +64,7 @@ public class Transaction {
                 isExpenseDesc_IsGreaterThan = false;
             }
 
-            System.out.printf("%-20s | %c%-10.2f | %-12s | %-10s | %-10s | %-8s%n",
+            System.out.printf("%-20s | %c%-9.2f | %-12s | %-10s | %-10s | %-8s%n",
                     newDesc, account.getCurrency(), r.amount, r.category, r.accountName, r.userName, type);
 
             if(isExpenseDesc_IsGreaterThan){

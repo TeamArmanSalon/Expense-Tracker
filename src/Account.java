@@ -68,4 +68,13 @@ public class Account {
         accountBalances.remove(category);
         return true;
     }
+
+    public Double getBalance(String account){
+        for(var entry : getAllBalances().entrySet()){
+            if(entry.getKey().equals(account)){
+                return entry.getValue();
+            }
+        }
+        return 0.00;
+    }
 }
