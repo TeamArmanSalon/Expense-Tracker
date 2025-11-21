@@ -14,13 +14,12 @@ public class ExpenseTracker {
     DONE - toString edit and delete records
     DONE - manage cat char handle input
     DONE - update all method and class for budget
-    - add new line for error message for more attention of users wrongness
+    DONE - add new line for error message for more attention of users wrongness
 
     Optional:
     format every record details if long
 
     Features:
-    - Transfer
-    - When entering pass, hide it
+    DONE - Transfer
      */
 }

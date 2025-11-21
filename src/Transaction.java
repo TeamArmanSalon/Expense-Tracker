@@ -39,42 +39,83 @@ public class Transaction {
         return true;
     }
 
+    public boolean addTransfer(String fromAccount, String toAccount, double amount) {
+        if (account == null) return false;
+
+        boolean success = account.subtractAmount(fromAccount, amount);
+
+        if (!success) return false;
+
+        account.addAmount(toAccount, amount);
+
+        Record r = new Record("No Description", amount, "No Category",
+                user.getName(), fromAccount, false, account.getCurrency());
+
+        r.isTransfer = true;
+        r.toAccount = toAccount;
+
+        records.add(r);
+
+        return true;
+    }
+
+
     public void showRecords() {
         System.out.println("\n--- All Transactions ---");
-        System.out.printf("%-20s | %-10s | %-12s | %-10s | %-10s | %-8s%n",
-                "Description", "Amount", "Category", "Account", "User", "Type");
-        System.out.println("----------------------------------------------------------------------------------------------");
-        List<String> tempDesc = null;
-        for (Record r : records) {
-            String type = r.isIncome ? "Income" : "Expense";
-            String newDesc = "";
-            boolean isExpenseDesc_IsGreaterThan = true; //means greater than 20 characters
+        System.out.printf("%-20s | %-10s | %-12s | %-20s | %-10s | %-8s%n",
+                "Description", "Amount", "Category", "Account(s)", "User", "Type");
+        System.out.println("----------------------------------------------------------------------------------------------------");
 
-            if(type.equals("Income")){
-                r.category = "No Category";
-                newDesc = "No Description";
-                isExpenseDesc_IsGreaterThan = false;
+        List<String> tempDesc = null;
+
+        for (Record r : records) {
+            String type;
+            if (r.isTransfer) {
+                type = "Transfer";
             }
-            else if(r.description.length() > 20){
+            else if (r.isIncome) {
+                type = "Income";
+                r.category = "No Category";
+            }
+            else {
+                type = "Expense";
+            }
+
+            String newDesc;
+            boolean isLong = false;
+
+            if (type.equals("Income")) {
+                newDesc = "No Description";
+            }
+            else if (r.description.length() > 20) {
                 tempDesc = wrapWords(r.description, 20);
                 newDesc = tempDesc.getFirst();
+                isLong = true;
             }
-            else{
+            else {
                 newDesc = r.description;
-                isExpenseDesc_IsGreaterThan = false;
             }
 
-            System.out.printf("%-20s | %c%-9.2f | %-12s | %-10s | %-10s | %-8s%n",
-                    newDesc, account.getCurrency(), r.amount, r.category, r.accountName, r.userName, type);
+            String accountDisplay;
+            if (r.isTransfer) {
+                accountDisplay = r.accountName + " -> " + r.toAccount;
+            }
+            else {
+                accountDisplay = r.accountName;
+            }
 
-            if(isExpenseDesc_IsGreaterThan){
+            System.out.printf("%-20s | %c%-9.2f | %-12s | %-20s | %-10s | %-8s%n",
+                    newDesc, account.getCurrency(), r.amount, r.category, accountDisplay, r.userName, type);
+
+            if (isLong) {
                 for (int i = 1; i < tempDesc.size(); i++) {
-                    System.out.println(tempDesc.get(i));
+                    System.out.printf("%-20s%n", tempDesc.get(i));
                 }
             }
         }
         System.out.println();
     }
+
 
     public static List<String> wrapWords(String text, int width) {
         List<String> lines = new ArrayList<>();
@@ -86,12 +127,14 @@ public class Transaction {
             if (current.length() + word.length() + 1 > width) {
                 lines.add(current.toString());
                 current = new StringBuilder(word);
-            } else {
-                if (current.length() > 0) current.append(" ");
+            }
+            else {
+                if (current.length() > 0) {
+                    current.append(" ");
+                }
                 current.append(word);
             }
         }
-
         if (current.length() > 0) {
             lines.add(current.toString());
         }

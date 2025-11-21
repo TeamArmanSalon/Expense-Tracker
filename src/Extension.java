@@ -1,3 +1,5 @@
+import java.io.Console;
+import java.sql.SQLOutput;
 import java.util.*;
 
 public class Extension {
@@ -796,6 +798,7 @@ public class Extension {
             System.out.println("2. Add New Account");
             System.out.println("3. Add Balance Account");
             System.out.println("4. Delete Account");
+            System.out.println("5. Transfer");
             System.out.println("0. Back");
             System.out.print("Choose option: ");
 
@@ -818,10 +821,142 @@ public class Extension {
                 case 2 -> addNewAccount();
                 case 3 -> addBalanceToAccount();
                 case 4 -> deleteAccount();
+                case 5 -> transfer();
                 case 0 -> System.out.println("...");
                 default -> System.out.println("\n[ Invalid option! Try again. ]\n");
             }
         }
+    }
+
+    private void transfer(){
+        if (account.getAllBalances().isEmpty()) {
+            System.out.println("\n[ No accounts available. ]\n");
+            return;
+        }
+
+        boolean zeroBalance = true;
+        for (var entry : account.getAllBalances().entrySet()) {
+            if(entry.getValue() > 0){
+                zeroBalance = false;
+                break;
+            }
+        }
+
+        if(zeroBalance){
+            System.out.println("\nYou cannot Transfer!");
+            System.out.println("[ You have zero balance in your account! ]\n");
+            return;
+        }
+
+        System.out.println("Transfer [From] Accounts:");
+        for (var entry : account.getAllBalances().entrySet()) {
+            System.out.printf("%s : %c%.2f | ", entry.getKey(), account.getCurrency(), entry.getValue());
+        }
+        System.out.println();
+
+        System.out.print("Select an Account: ");
+        String tempAccount = scanner.nextLine();
+
+        if(tempAccount.isEmpty()){
+            System.out.println("\n[ Must not be empty! ]\n");
+            return;
+        }
+
+        String accFrom = formatThis(tempAccount);
+
+        if(!account.accountExists(accFrom)){
+            System.out.println("\n[ Account doesn't exist! ]\n");
+            return;
+        }
+
+        System.out.println("Transfer [To] Accounts:");
+        for (var entry : account.getAllBalances().entrySet()) {
+            if(!entry.getKey().equals(accFrom)){
+                System.out.printf("%s : %c%.2f | ", entry.getKey(), account.getCurrency(), entry.getValue());
+            }
+        }
+        System.out.println();
+
+        System.out.print("Select an Account: ");
+        String tempAccount2 = scanner.nextLine();
+
+        if(tempAccount2.isEmpty()){
+            System.out.println("\n[ Must not be empty! ]\n");
+            return;
+        }
+
+        String accTo = formatThis(tempAccount2);
+
+        if(accFrom.equals(accTo)){
+            System.out.println("\n[ Must not same as [From] Account! ]\n");
+            return;
+        }
+
+        if(!account.accountExists(accTo)){
+            System.out.println("\n[ Account doesn't exist! ]\n");
+            return;
+        }
+
+        double amt;
+        while(true){
+            Map<String, Double> balances = account.getAllBalances();
+
+            Double fromBalance = balances.get(accFrom);
+            Double toBalance   = balances.get(accTo);
+
+            char currency = account.getCurrency();
+
+            if (fromBalance != null) {
+                System.out.printf("%s : %c%.2f -> ", accFrom, currency, fromBalance);
+            }
+
+            if (toBalance != null) {
+                System.out.printf("%s : %c%.2f", accTo, currency, toBalance);
+            }
+
+            System.out.println();
+
+            System.out.print("Enter amount to transfer: ");
+            String tempAmt = scanner.nextLine();
+
+            if(tempAmt.isEmpty()){
+                System.out.println("\n[ Must not be empty ]\n");
+                continue;
+            }
+
+            try{
+                amt = Double.parseDouble(tempAmt);
+
+                if(amt < 0.0){
+                    System.out.println("\n[ Must not less than 0! ]\n");
+                    return;
+                }
+
+                boolean greaterThan = false;
+                for (var entry : account.getAllBalances().entrySet()) {
+                    if(entry.getKey().equals(accFrom) && amt > entry.getValue()){
+                        System.out.println("\n[ Must not be greater than the amount\n" +
+                                "from the account you want to transfer. ]\n");
+
+                        System.out.printf("Balance of %s: %c%.2f%n", accFrom, account.getCurrency(),
+                                entry.getValue());
+                        greaterThan = true;
+                        break;
+                    }
+                }
+
+                if(greaterThan){
+                    continue;
+                }
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println("\n[ Invalid input! Please Enter number. ]\n");
+            }
+        }
+
+        transaction.addTransfer(accFrom, accTo, amt);
+
+        System.out.println("\nSuccessfully transfer...\n");
     }
 
     private void deleteAccount() {
@@ -938,14 +1073,13 @@ public class Extension {
             }
         }
 
-        account.addAmount(accountName, amount);
         transaction.addIncome(amount, accountName);
 
         System.out.println("\n[ Balance added successfully to " + accountName + "! ]\n");
     }
 
     private void showAccount() {
-        System.out.println("--- Account Info ---");
+        System.out.println("\n---- Account Info ----");
 
         if (user == null) {
             System.out.println("\n[ No user registered. ]");
@@ -957,7 +1091,7 @@ public class Extension {
         System.out.println("Balances per Account:");
 
         for (var entry : account.getAllBalances().entrySet()) {
-            System.out.printf("%-15s : %.2f%n", entry.getKey(), entry.getValue());
+            System.out.printf("%-15s : %c%.2f%n", entry.getKey(), account.getCurrency(), entry.getValue());
         }
 
         System.out.println("----------------------\n");
@@ -1168,6 +1302,4 @@ public class Extension {
 
         System.out.println("\n[ Account created successfully! ]\n");
     }
-
-
 }

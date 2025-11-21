@@ -6,6 +6,8 @@ public class Record{
     public String accountName;
     public boolean isIncome;
     public char currency;
+    public boolean isTransfer;
+    public String toAccount;
 
     //for expense
     public Record(String description, double amount, String category,
