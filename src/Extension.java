@@ -212,34 +212,46 @@ public class Extension {
 
         Record r = records.get(index);
 
-        System.out.printf("Old description: %s\n", r.description);
-        System.out.print("Enter new description (press \"s\" to keep): ");
-        String newDesc = scanner.nextLine().trim();
+        if(r.isIncome || r.isTransfer){
+            System.out.println("\n[ You select Income/Transfer type. \n" +
+                    "We don't have edit description features for this type yet.\n" +
+                    "However, you can edit the amount. please set your amount... ]\n");
+        }
+
+        boolean isUpdated = false;
+        String newDesc = "No Description";
+        if(!r.isIncome){
+            System.out.printf("Old description: %s\n", r.description);
+            System.out.print("Enter new description (press \"s\" to keep): ");
+            newDesc = scanner.nextLine().trim();
+        }
 
         if(newDesc.isEmpty()){
-            System.out.println("\n[ Must not be empty! ]\n");
+            System.out.println("\n[ Must not be empty! Cancelled Change! ]\n");
             return;
         }
 
         if (!newDesc.equalsIgnoreCase("s")) {
             r.description = newDesc;
+            isUpdated = true;
         }
         else{
             System.out.println("\n[ We keep the old description. ]\n");
         }
 
+        System.out.println("Old Amount: " + account.getCurrency() + r.amount);
         System.out.print("Enter new amount (press \"s\" to keep): ");
         String amt = scanner.nextLine().trim();
 
         if(amt.isEmpty()){
-            System.out.println("\n[ Must not be empty! ]\n");
+            System.out.println("\n[ Must not be empty! Cancelled Change! ]\n");
             return;
         }
 
         if (!amt.equalsIgnoreCase("s")) {
             try {
-                double newAmount = Double.parseDouble(amt);
-                r.amount = newAmount;
+                r.amount = Double.parseDouble(amt);
+                isUpdated = true;
             } catch (NumberFormatException e) {
                 System.out.println("\n[ Invalid amount! ]\n");
             }
@@ -248,7 +260,9 @@ public class Extension {
             System.out.println("\n[ We keep the old amount. ]\n");
         }
 
-        System.out.println("Record updated!...");
+        if(isUpdated){
+            System.out.println("Record updated!...");
+        }
     }
 
     private void deleteRecord() {
@@ -1153,6 +1167,7 @@ public class Extension {
         for (String cat : budget.getBudgetCategories()) {
             System.out.println("* " + cat);
         }
+        System.out.println();
     }
 
 

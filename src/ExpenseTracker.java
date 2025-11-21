@@ -20,7 +20,7 @@ public class ExpenseTracker {
     Features:
     DONE - Transfer
 
-    ++
+    ++ (DO IF THERES TIME)
     - format every record details if long
     - Logout
     - Date
