@@ -5,7 +5,7 @@ public class ExpenseTracker {
     }
 
     /*
-    Problem/Solution:
+    TODO:
     DONE - Should be able to edit, delete
     DONE - Change Name of number one menu (Should be Expense & Income)
     DONE - Greater Expense and Income
@@ -16,10 +16,11 @@ public class ExpenseTracker {
     DONE - update all method and class for budget
     DONE - add new line for error message for more attention of users wrongness
 
+    Features:
+    DONE - Transfer
+
     Optional:
     format every record details if long
 
-    Features:
-    DONE - Transfer
      */
 }
