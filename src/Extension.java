@@ -1,4 +1,3 @@
-import java.sql.SQLOutput;
 import java.util.*;
 
 public class Extension {
@@ -251,10 +250,11 @@ public class Extension {
         if (!amt.equalsIgnoreCase("s")) {
             try {
                 r.amount = Double.parseDouble(amt);
-                isUpdated = true;
             } catch (NumberFormatException e) {
                 System.out.println("\n[ Invalid amount! ]\n");
+                return;
             }
+            isUpdated = true;
         }
         else{
             System.out.println("\n[ We keep the old amount. ]\n");
