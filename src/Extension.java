@@ -1,5 +1,3 @@
-import java.io.Console;
-import java.sql.SQLOutput;
 import java.util.*;
 
 public class Extension {
@@ -8,8 +6,6 @@ public class Extension {
     private final Transaction transaction = new Transaction(account);
     Expense expense = new Expense();
     private User user;
-    private List<String> expenseCategories = new ArrayList<>();
-    private List<String> incomeCategories = new ArrayList<>();
     private Budget budget = new Budget();
 
 
