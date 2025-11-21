@@ -77,4 +77,12 @@ public class Account {
         }
         return 0.00;
     }
+
+    public Double getBalance(){
+        double bal = 0.0;
+        for(var ent : getAllBalances().entrySet()){
+            bal += ent.getValue();
+        }
+        return bal;
+    }
 }

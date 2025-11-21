@@ -61,6 +61,11 @@ public class Transaction {
 
 
     public void showRecords() {
+        if(getRecords() == null || getRecords().isEmpty()){
+            System.out.println("\n[ No Transaction/Records found! ]\n");
+            return;
+        }
+
         System.out.println("\n--- All Transactions ---");
         System.out.printf("%-20s | %-10s | %-12s | %-20s | %-10s | %-8s%n",
                 "Description", "Amount", "Category", "Account(s)", "User", "Type");

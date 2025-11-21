@@ -15,12 +15,17 @@ public class ExpenseTracker {
     DONE - manage cat char handle input
     DONE - update all method and class for budget
     DONE - add new line for error message for more attention of users wrongness
+    DONE - check if record is empty in view records
 
     Features:
     DONE - Transfer
 
-    Optional:
-    format every record details if long
+    ++
+    - format every record details if long
+    - Logout
+    - Date
+    - Search
+
 
      */
 }

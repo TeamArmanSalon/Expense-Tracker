@@ -1,3 +1,4 @@
+import java.sql.SQLOutput;
 import java.util.*;
 
 public class Extension {
@@ -137,7 +138,7 @@ public class Extension {
             }
 
             switch (choice) {
-                case 1 -> System.out.printf("\nYour current profile is [ %s ]\n", user.getName());
+                case 1 -> System.out.printf("\nYour current profile is [ %s ]\n\n", user.getName());
                 case 2 -> {
                     System.out.print("Enter new name: ");
                     String newName = scanner.nextLine();
@@ -430,7 +431,8 @@ public class Extension {
         boolean zeroBalance = accounts.values().stream().allMatch(a -> a == 0);
 
         if(zeroBalance){
-            System.out.println("\nYou have zero balance in your accounts!");
+            System.out.println("\n[ Cannot add Expense! ]");
+            System.out.println("Reason: You have zero balance in your accounts!");
             System.out.println("Tip: Go to \"Add Income\" to set your balance.\n");
             return;
         }
@@ -961,12 +963,13 @@ public class Extension {
             return;
         }
 
-        System.out.println("Available Accounts:");
+        System.out.println("Available Accounts: ");
         for (var entry : account.getAllBalances().entrySet()) {
-            System.out.printf("%s : %c%.2f%n", entry.getKey(), account.getCurrency(), entry.getValue());
+            System.out.printf("%s : %c%.2f | ", entry.getKey(), account.getCurrency(), entry.getValue());
         }
+        System.out.println();
 
-        System.out.print("\nEnter account name to delete: ");
+        System.out.print("Enter account name to delete: ");
         String name = scanner.nextLine().trim();
 
         if (name.isEmpty()) {
@@ -991,8 +994,12 @@ public class Extension {
             System.out.print("Are you sure you want to delete it? (Y/N): ");
             String confirm = scanner.nextLine().trim().toUpperCase();
 
+            if(confirm.equals("N")){
+                System.out.println("\nDelete cancelled...\n");
+                return;
+            }
             if (!confirm.equals("Y")) {
-                System.out.println("\n[ Delete cancelled. ]\n");
+                System.out.println("\n[ Please Enter \"Y\" YES / \"N\" NO! Delete cancelled. ]\n");
                 return;
             }
         }
@@ -1003,19 +1010,21 @@ public class Extension {
             System.out.println("\nAccount '" + accName + "' deleted successfully...\n");
         }
         else {
-            System.out.println("\n[ Failed to delete account. ]\n");
+            System.out.println("\n[ Failed to delete account. Something went wrong! ]\n");
         }
     }
 
 
     private void addNewAccount() {
         System.out.print("Enter New Account: ");
-        String newAccount = scanner.nextLine().trim();
+        String tempAccount = scanner.nextLine().trim();
 
-        if (newAccount.isEmpty()) {
+        if (tempAccount.isEmpty()) {
             System.out.println("\n[ Account name cannot be empty! ]\n");
             return;
         }
+
+        String newAccount = formatThis(tempAccount);
 
         if (account.accountExists(newAccount)) {
             System.out.println("\n[ Account already exists! ]\n");
@@ -1083,6 +1092,7 @@ public class Extension {
         }
 
         System.out.println("Name: " + user.getName());
+        System.out.println("Total balance : " + account.getCurrency() + account.getBalance());
         System.out.println("----------------------");
         System.out.println("Balances per Account:");
 
