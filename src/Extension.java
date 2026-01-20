@@ -124,7 +124,7 @@ public class Extension {
 
             String temp = scanner.nextLine();
 
-            if (temp.isEmpty()) {
+            if (temp.isEmpty()){
                 System.out.println("\n[ Must not be empty! ]\n");
                 return;
             }
