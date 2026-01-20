@@ -1,12 +1,5 @@
 # Expense Tracker
-*Final Exam Project in Object-Oriented Programming (OOP)*
-
-## Overview
-The **Expense Tracker** is a simple Java console-based application that helps users manage their personal finances. It allows users to **add expenses and income, set budgets, view financial summaries**, and generate reports—all while applying key **Object-Oriented Programming principles**
-
-This project was developed as part of a **final exam requirement** in the *Object-Oriented Programming* course.
-
----
+*PROJECTS*
 
 ## Features
 
